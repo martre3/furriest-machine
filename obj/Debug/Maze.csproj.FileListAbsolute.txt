@@ -1,0 +1,15 @@
+c:\Projects\Games\Maze\Maze\bin\Debug\Maze.exe.config
+c:\Projects\Games\Maze\Maze\bin\Debug\Maze.exe
+c:\Projects\Games\Maze\Maze\bin\Debug\Maze.pdb
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.csprojAssemblyReference.cache
+c:\Projects\Games\Maze\Maze\obj\Debug\MainWindow.g.cs
+c:\Projects\Games\Maze\Maze\obj\Debug\App.g.cs
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze_MarkupCompile.cache
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze_MarkupCompile.lref
+c:\Projects\Games\Maze\Maze\obj\Debug\MainWindow.baml
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.g.resources
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.Properties.Resources.resources
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.csproj.GenerateResource.cache
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.csproj.CoreCompileInputs.cache
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.exe
+c:\Projects\Games\Maze\Maze\obj\Debug\Maze.pdb
