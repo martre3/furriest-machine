@@ -8,8 +8,8 @@ namespace Server.src.singleton
     class Logger
     {
         private static Logger instance;
-        private static object lockThread = new Object();
-        private string fileName = DateTime.Today.Date.ToString() + ".log";
+        private static object lockThread = new object();
+        private string fileName = DateTime.Today.Date.ToString("yyyy-MM-dd") + ".log";
 
         private Logger() {
             if (!File.Exists(fileName))
@@ -37,12 +37,13 @@ namespace Server.src.singleton
         {
             lock(lockThread)
             {
-                Console.WriteLine(DateTime.Now.ToString() + ": " + text);
                 using (StreamWriter writer = new StreamWriter(fileName))
                 {
                     writer.WriteLine(DateTime.Now.ToString() + ": " + text);
                 }
             }
+
+            Console.WriteLine(text);
         }
     }
 }
