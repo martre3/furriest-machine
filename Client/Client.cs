@@ -24,7 +24,7 @@ namespace Maze.Client
             };
 
             GDIRenderer renderer = new GDIRenderer(clientForm);
-            FormInput input = new FormInput();
+            ClientFormInput input = new ClientFormInput();
 
             HookInputEvents(clientForm, input);
 
@@ -35,14 +35,15 @@ namespace Maze.Client
                 UpdateTimeStep = 33,
             };
 
-            var game = new GameRunner(engine);
+            var game = new GameRunner(engine, new ClientGameState());
+            var synchronizer = new StateSynchronizer(game.GetGameState(), input);
 
             // TODO: Stop game thread and clean up when window starts closing
             game.RunAsync();
             Application.Run(clientForm);
         }
 
-        private static void HookInputEvents(ClientForm form, FormInput input)
+        private static void HookInputEvents(ClientForm form, ClientFormInput input)
         {
             form.KeyUp += (object sender, KeyEventArgs e) => {
                 input.KeyUp(e.KeyCode);

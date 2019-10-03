@@ -60,6 +60,8 @@ namespace Maze.Engine
         /// </summary>
         public event EventHandler<UpdateEventArgs> OnUpdate;
 
+        public static event EventHandler<UpdateEventArgs> PostUpdate;
+
         /// <summary>
         /// Raised when renderer prepares the current frame for drawing.
         /// </summary>
@@ -67,15 +69,18 @@ namespace Maze.Engine
 
         private IRenderer _renderer;
 
-        private PerformanceMonitor _monitor;
+        private PerformanceMonitor _monitor { get; }
 
-        public GameEngine(IRenderer renderer, FormInput input)
+        public GameEngine(FormInput input)
         {
-            _renderer = renderer;
             _input = input;
-
             _monitor = new PerformanceMonitor();
             PreUpdate += _monitor.CaptureFrame;
+        }
+
+        public GameEngine(IRenderer renderer, FormInput input): this(input)
+        {
+            _renderer = renderer;
 
             // TODO: There's probably a better way to achieve event propogation.
             // Or perhaps event in renderer is unnecessary.
@@ -90,8 +95,9 @@ namespace Maze.Engine
             double unprocessedTime = 0;
             int updates = 0;
 
-            _renderer.Initialize();
-            _input.Initialize();
+            if (EnableRender) {
+                _renderer.Initialize();
+            }
 
             OnInit.Raise(this, null);
 
@@ -114,6 +120,8 @@ namespace Maze.Engine
                     unprocessedTime -= UpdateTimeStep;
                     updates++;
                 }
+
+                PostUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
 
                 if (EnableRender) {
                     _renderer.Frame();

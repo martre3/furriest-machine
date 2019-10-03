@@ -4,21 +4,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using Maze.Engine.Events;
 using Maze.Engine.Input;
-
+using Maze.Game.Assets;
 
 namespace Maze.Game.Objects
 {
     class Example: GameObject
     {
-        Point pos;
         Point direction;
         double velocity;
-        Size size;
-
-        Rectangle boundingBox;
-
-        int clientHeight;
-        int clientWidth;
 
         Random rng;
 
@@ -36,7 +29,7 @@ namespace Maze.Game.Objects
             clientHeight = 576;
         }
 
-        public override void InitializeAssets()
+        public override void InitializeAssets(AssetsLoader assetsLoader)
         {
             // Not really an asset, but any image loading, graphics pre-generation would go here.
             boundingBox = new Rectangle(pos, size);

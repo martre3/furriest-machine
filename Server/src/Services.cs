@@ -1,19 +1,15 @@
-﻿using MazeServer.src.map;
-using MazeServer.src.enums;
-using MazeServer.src.Game.Players;
-using MazeServer.src.server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Maze.Server.Network;
 
 namespace MazeServer.src
 {
     class Services
     {
-        PlayerHandler PlayerHandler = new PlayerHandler();
-        Server Server = new Server(1239);
+        Listener Server = new Listener(1239);
     }
 }

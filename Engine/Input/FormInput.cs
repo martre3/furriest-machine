@@ -4,31 +4,49 @@ using System.Windows.Forms;
 
 namespace Maze.Engine.Input
 {
-    public class FormInput : IEnumerableInput<Keys>, IQueryableFormInput
+    [Serializable]
+    public class FormInput : IQueryableFormInput
     {
-        private readonly Dictionary<Keys, bool> _inputKeys = new Dictionary<Keys, bool>();
-
-        public void Initialize()
-        {
-            foreach (Keys key in Enum.GetValues(typeof(Keys)))
-            {
-                _inputKeys[(Keys) key] = false;
-            }
-        }
+        protected Dictionary<int, Dictionary<Keys, bool>> _inputKeys = new Dictionary<int, Dictionary<Keys, bool>>();
 
         public bool IsKeyDown(Keys key)
         {
-            return _inputKeys[key];
+            foreach (var id in _inputKeys.Keys) 
+            {
+                if (IsUserKeyDown(id, key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public void KeyDown(Keys key)
+        public bool IsUserKeyDown(int userId, Keys key)
         {
-            _inputKeys[key] = true;
+            if (!_inputKeys.ContainsKey(userId)) {
+                return false;
+            }
+            
+            return _inputKeys[userId][key];
         }
 
-        public void KeyUp(Keys key)
+        public void Merge(FormInput newInput)
         {
-            _inputKeys[key] = false;
+            foreach (var userInput in newInput._inputKeys)
+            {
+                _inputKeys[userInput.Key] = userInput.Value;
+            }
+        }
+
+        protected void Initialize(int userId)
+        {
+            _inputKeys[userId] = new Dictionary<Keys, bool>();
+
+            foreach (Keys key in Enum.GetValues(typeof(Keys)))
+            {
+                _inputKeys[userId][(Keys) key] = false;
+            }
         }
     }
 }

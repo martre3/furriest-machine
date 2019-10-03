@@ -4,6 +4,12 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.0.0\ref\netcoreapp3.0\System.Windows.Forms.dll</HintPath>
+    </Reference>
     <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Client\Client.csproj" />
+    <ProjectReference Include="..\Game\Game.csproj" />
+    <ProjectReference Include="..\Engine\Engine.csproj" />
   </ItemGroup>
 </Project>
