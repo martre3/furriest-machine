@@ -22,7 +22,9 @@ namespace MazeServer.src.server
 
         public void SendResponse(object data)
         {
-            this.Formatter.Serialize(this.Stream, data);
+            try {
+                this.Formatter.Serialize(this.Stream, data);
+            } catch (Exception e) {}
         }
     }
 }

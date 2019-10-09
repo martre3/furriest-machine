@@ -60,7 +60,7 @@ namespace MazeServer.src.Game.Players
             return new Shared.Engine.GameObject() {
                 X = gameObject.X,
                 Y = gameObject.Y,
-                TextureID = gameObject.TextureID,
+                TextureFile = gameObject.TextureFile,
             };
         }
     }

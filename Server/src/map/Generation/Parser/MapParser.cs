@@ -18,6 +18,7 @@ namespace MazeServer.src.map.Parser
         {
             List<GameObject> structures = new List<GameObject>();
             StructureFactory factory = new StructureFactory();
+            List<List<MapTile>> map = new List<List<MapTile>>(); 
 
             int lineCount = 0;
             string line;
@@ -26,19 +27,29 @@ namespace MazeServer.src.map.Parser
 
             while ((line = file.ReadLine()) != null)
             {
+                List<MapTile> row = new List<MapTile>();
+
                 int columnCount = 0;
 
                 foreach (char c in line)
                 {
-                    structures.Add(this.CreateStructure(factory, this.ParseChar(c), columnCount * 32, lineCount * 32));
+                    // row.Add(new MapTile(this.ParseChar(c), row.Count, map.Count));
+                    structures.Add(this.CreateStructure(factory, this.ParseChar(c), columnCount, lineCount));
                     columnCount++;
                 }
 
+                Console.WriteLine(structures.Count);
+                // map.Add(row);
                 lineCount++;
             }
 
             return structures;
         }
+
+        // private List<GameObject> merge(List<List<MapTile>> map)
+        // {
+            
+        // }
 
         private Structures ParseChar(char structure)
         {
@@ -58,6 +69,8 @@ namespace MazeServer.src.map.Parser
             var wall = factory.Create(structureType);
             wall.X = x;
             wall.Y = y;
+            // wall.Height = height;
+            // wall.Width = width;
 
             return wall;
         }

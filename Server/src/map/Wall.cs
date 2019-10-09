@@ -10,11 +10,7 @@ namespace MazeServer.src.map
     {
         public Wall()
         {
-            this.TextureID = 2;
-        }
-        public override string TextureFile
-        {
-            get { return "Wall.tif"; }
+            this.TextureFile = "Wall.tif";
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MazeServer.src.Game.Players
         public Player(ClientConnection connection)
         {
             this.Connection = connection;
-            this.TextureID = 3;
+            this.TextureFile = "slime.png";
         }
     }
 }

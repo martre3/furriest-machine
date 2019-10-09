@@ -46,16 +46,18 @@ namespace MazeServer.src.server
         {
             Console.WriteLine("New client ({0}) connected", clientIndex);
 
-            using (client)
-            {
-                Connection connection = new Connection(client.GetStream());
-
-                while (!ct.IsCancellationRequested)
+            try {
+                using (client)
                 {
-                    ClientToServer data = (ClientToServer) connection.GetRequest();
-                    Server.RequestReceived(this, new RequestReceivedArguments(data, connection));
+                    Connection connection = new Connection(client.GetStream());
+
+                    while (!ct.IsCancellationRequested)
+                    {
+                        ClientToServer data = (ClientToServer) connection.GetRequest();
+                        Server.RequestReceived(this, new RequestReceivedArguments(data, connection));
+                    }
                 }
-            }
+            } catch (Exception e) {}
             Console.WriteLine("Client ({0}) disconnected", clientIndex);
         }
     }

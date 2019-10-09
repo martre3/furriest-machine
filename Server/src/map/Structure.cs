@@ -9,8 +9,6 @@ namespace MazeServer.src.map
 {
     abstract class Structure: GameObject
     {
-        public abstract string TextureFile { get; }
-
         public Structure Clone()
         {
             return (Structure) this.MemberwiseClone();
