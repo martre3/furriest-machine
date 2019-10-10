@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Shared.communication.enums;
 using MazeServer.src.server.Events;
+using Server.src.singleton;
 
 namespace MazeServer.src.server
 {
@@ -25,7 +26,8 @@ namespace MazeServer.src.server
             server = new TcpListener(localAddr, port);
             server.Start();
 
-            Console.WriteLine("Listenting...");
+            var instance = Logger.getInstance();
+            instance.printToFile("Listenting...");
             this.AcceptClientsAsync(server, this.CTS.Token);
         }
 
@@ -44,8 +46,8 @@ namespace MazeServer.src.server
 
         async Task EchoAsync(TcpClient client, int clientIndex, CancellationToken ct)
         {
-            Console.WriteLine("New client ({0}) connected", clientIndex);
-
+            var instance = Logger.getInstance();
+            instance.printToFile(("New client ({0}) connected", clientIndex).ToString());
             using (client)
             {
                 Connection connection = new Connection(client.GetStream());
@@ -56,7 +58,8 @@ namespace MazeServer.src.server
                     Server.RequestReceived(this, new RequestReceivedArguments(data, connection));
                 }
             }
-            Console.WriteLine("Client ({0}) disconnected", clientIndex);
+            instance = Logger.getInstance();
+            instance.printToFile(("Client ({0}) disconnected", clientIndex).ToString());
         }
     }
 }
