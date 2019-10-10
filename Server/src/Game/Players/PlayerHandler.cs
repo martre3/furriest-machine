@@ -11,6 +11,7 @@ using MazeServer.src.Game.Players.Events;
 using System.Timers;
 using System.Net.Sockets;
 using System.Threading;
+using Server.src.singleton;
 
 namespace MazeServer.src.Game.Players
 {
@@ -41,7 +42,8 @@ namespace MazeServer.src.Game.Players
 
         private async void UpdatePlayers(object sender, PostFrameArguments arguments)
         {
-            Console.WriteLine(arguments.State.Objects.Count);
+            var instance = Logger.getInstance();
+            instance.printToFile(arguments.State.Objects.Count.ToString());
             List<Shared.Engine.GameObject> objects = arguments.State.Objects.Select(this.ToClientGameObject).ToList();
 
             await this.PlayerListLock.WaitAsync();
