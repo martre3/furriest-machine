@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.communication.enums
+namespace Shared.Enums
 {
-    public enum Request
+    public enum MapStyle
     {
-        Initial,
+        Style1, Style2
     }
 }

@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Shared.communication.enums;
 using MazeServer.src.server.Events;
+using Shared.Engine;
 
 namespace MazeServer.src.server
 {
@@ -53,11 +54,13 @@ namespace MazeServer.src.server
 
                     while (!ct.IsCancellationRequested)
                     {
-                        ClientToServer data = (ClientToServer) connection.GetRequest();
+                        Request data = (Request) connection.GetRequest();
                         Server.RequestReceived(this, new RequestReceivedArguments(data, connection));
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                Console.WriteLine(e.GetBaseException());
+            }
             Console.WriteLine("Client ({0}) disconnected", clientIndex);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,48 +12,42 @@ using MazeServer.src.Game.Players.Events;
 using System.Timers;
 using System.Net.Sockets;
 using System.Threading;
+using MazeServer.src.Data;
 
 namespace MazeServer.src.Game.Players
 {
     class PlayerHandler
     {
-        private List<Player> Players = new List<Player>();
+        private BlockingCollection<Player> Players = new BlockingCollection<Player>();
         private PlayerInitializer Initializer = new PlayerInitializer();
         private readonly SemaphoreSlim PlayerListLock = new SemaphoreSlim(1, 1);
 
         public PlayerHandler()
         {
-            PlayerInitializer.PlayerCreated += AddPlayer;
-            MazeServer.src.engine.Game.PostFrame += UpdatePlayers;
+            // PlayerInitializer.PlayerCreated += AddPlayer;
+            // MazeServer.src.engine.Game.PostFrame += UpdatePlayers;
         }
 
-        private async void AddPlayer(object sender, PlayerCreatedArguments arguments)
+        // private async void AddPlayer(object sender, PlayerCreatedArguments arguments)
+        public void AddPlayer(Player player)
         {
-            await this.PlayerListLock.WaitAsync();
-            try
-            {
-                this.Players.Add(arguments.NewPlayer);
-            }
-            finally
-            {
-                this.PlayerListLock.Release();
-            }
+            this.Players.Add(player);
+            // await this.PlayerListLock.WaitAsync();
+            // try
+            // {
+            //     this.Players.Add(arguments.NewPlayer);
+            // }
+            // finally
+            // {
+            //     this.PlayerListLock.Release();
+            // }
         }
 
-        private async void UpdatePlayers(object sender, PostFrameArguments arguments)
+        public void UpdatePlayers(GameData data)
         {
-            Console.WriteLine(arguments.State.Objects.Count);
-            List<Shared.Engine.GameObject> objects = arguments.State.Objects.Select(this.ToClientGameObject).ToList();
+            List<Shared.Engine.GameObject> objects = data.Objects.Select(this.ToClientGameObject).ToList();
 
-            await this.PlayerListLock.WaitAsync();
-            try
-            {
-                this.Players.ForEach((player) => player.Connection.SendResponse(objects));
-            }
-            finally
-            {
-                this.PlayerListLock.Release();
-            }
+            this.Players.ToList().ForEach((player) => player.Connection.SendResponse(objects));
         }
 
         private Shared.Engine.GameObject ToClientGameObject(GameObject gameObject)

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MazeServer.src.engine;
 
 namespace MazeServer.src.map
 {
-    class Wall: Structure
+    class BrickWall: Structure
     {
-        public Wall()
+        public BrickWall()
         {
-            this.TextureFile = "Wall.tif";
+            this.TextureFile = "Wall2.tif";
         }
     }
 }

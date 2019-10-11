@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MazeServer.src.engine;
 
-namespace MazeServer.src.map
+namespace Shared.communication.enums
 {
-    abstract class Structure: GameObject
+    public enum Requests
     {
-    
+        Initial, StartGame, Respawn, SelectStyle
     }
 }

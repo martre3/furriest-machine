@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MazeServer.src.engine.Events.Arguments;
+using System.Drawing;
+using Maze.src.engine.Events.Arguments;
 
-namespace MazeServer.src.engine
+namespace Maze.src.engine
 {
-    abstract class GameObject: Shared.Engine.GameObject
+    class GameObject
     {
         public static event EventHandler<GameObjectInitializedArguments> ObjectInstantiated;
         public static event EventHandler<GameObjectInitializedArguments> ObjectDestroyed;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Bitmap Texture { get; set; }
 
-        // public BitmapImage Texture { get; set; }
-
-        public GameObject Instantiate()
+        public GameObject Insantiate()
         {
             GameObject.ObjectInstantiated(this, new GameObjectInitializedArguments(this));
 
             return this;
-        }
-
-        public void Destroy()
-        {
-            GameObject.ObjectDestroyed?.Invoke(this, new GameObjectInitializedArguments(this));
         }
     }
 }

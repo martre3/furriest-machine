@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MazeServer.src.engine;
 
-namespace MazeServer.src.map
+namespace Maze.src.enums
 {
-    abstract class Structure: GameObject
+    enum Structures
     {
-    
+        Wall, Floor, Player // TODO
     }
 }

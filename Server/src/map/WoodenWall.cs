@@ -7,8 +7,11 @@ using MazeServer.src.engine;
 
 namespace MazeServer.src.map
 {
-    abstract class Structure: GameObject
+    class WoodenWall: Structure
     {
-    
+        public WoodenWall()
+        {
+            this.TextureFile = "Wall.tif";
+        }
     }
 }

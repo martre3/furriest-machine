@@ -6,11 +6,18 @@ using System.Drawing.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win32;
+using Maze.src.engine;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace FormWindow
 {
     public partial class GraphicsForm : Form
     {
+        private readonly SemaphoreSlim BufferLock = new SemaphoreSlim(1, 1);
+        public static event EventHandler<EventArgs> Rendering;
+        public static event EventHandler<KeyEventArgs> KeyPressed;
+
         private bool antialiasing = false;
         private Size displaySize;
 
@@ -83,38 +90,46 @@ namespace FormWindow
             rng = new Random();
 
             Task.Run(RenderLoop);
+
+            new Game(this);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
             key = e.KeyCode;
+            GraphicsForm.KeyPressed?.Invoke(this, e);
         }
 
-        private new void Paint()
+        public new void Paint(List<(Brush, Rectangle)> pairs)
         {
-            G_BUFFER.Graphics.Clear(Color.Black);
-            G_BUFFER.Graphics.DrawString("Text", DefaultFont, new SolidBrush(Color.White), 0, 0);
-
-            for (int i = 0; i < 20000; i++)
+            this.BufferLock.Wait();
+            try
             {
-                G_BUFFER.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(rng.Next(256), rng.Next(256), rng.Next(256))), rng.Next(0, displaySize.Width), rng.Next(0, displaySize.Height), 4, 4);
-            }
+                G_BUFFER.Graphics.Clear(Color.Black);
+                G_BUFFER.Graphics.DrawString("Text", DefaultFont, new SolidBrush(Color.White), 0, 0);
+                
+                pairs.ForEach(pair => G_BUFFER.Graphics.FillRectangle(pair.Item1, pair.Item2));
 
-            if (elapsed > 0)
-            {
-                var sSize = G_BUFFER.Graphics.MeasureString($"FPS: {(1000f / elapsed):0}", font);
-                var sSize2 = G_BUFFER.Graphics.MeasureString($"FPS: {elapsed:0.00}", font);
-                G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, 0, sSize2.Width, sSize.Height);
-                G_BUFFER.Graphics.DrawString($"FPS: {(1000f / elapsed):0}", font, hBrush, 0, 0);
-                G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, sSize.Height, sSize2.Width, sSize2.Height);
-                G_BUFFER.Graphics.DrawString($"{elapsed:0.00} ms", font, hBrush, 0, sSize.Height);
-
-                if (key != Keys.None)
+                if (elapsed > 0)
                 {
-                    G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, sSize.Height * 2, sSize2.Width, sSize2.Height);
-                    G_BUFFER.Graphics.DrawString($"KEY: {key}", font, hBrush, 0, sSize.Height * 2);
+                    var sSize = G_BUFFER.Graphics.MeasureString($"FPS: {(1000f / elapsed):0}", font);
+                    var sSize2 = G_BUFFER.Graphics.MeasureString($"FPS: {elapsed:0.00}", font);
+                    G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, 0, sSize2.Width, sSize.Height);
+                    G_BUFFER.Graphics.DrawString($"FPS: {(1000f / elapsed):0}", font, hBrush, 0, 0);
+                    G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, sSize.Height, sSize2.Width, sSize2.Height);
+                    G_BUFFER.Graphics.DrawString($"{elapsed:0.00} ms", font, hBrush, 0, sSize.Height);
+
+                    if (key != Keys.None)
+                    {
+                        G_BUFFER.Graphics.FillRectangle(Brushes.Black, 0, sSize.Height * 2, sSize2.Width, sSize2.Height);
+                        G_BUFFER.Graphics.DrawString($"KEY: {key}", font, hBrush, 0, sSize.Height * 2);
+                    }
                 }
+            }
+            finally
+            {
+                this.BufferLock.Release();
             }
         }
 
@@ -139,8 +154,18 @@ namespace FormWindow
 
                     sw.Restart();
 
+                    GraphicsForm.Rendering?.Invoke(this, EventArgs.Empty);
+
                     // Should pass G_BUFFER.Graphics
-                    Paint();
+                    this.BufferLock.Wait();
+                    try
+                    {
+                        G_BUFFER.Render();
+                    }
+                    finally
+                    {
+                     this.BufferLock.Release();
+                    }
 
                     G_BUFFER.Render();
                 }

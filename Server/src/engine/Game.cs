@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MazeServer.src.enums;
-using MazeServer.src.map.Parser;
+using MazeServer.src.map.Generation.Parser;
 using MazeServer.src.map;
 using MazeServer.src.engine.Events.Arguments;
 using System.Timers;
 using System.Net.Sockets;
 using System.Threading;
+using Shared.Engine;
+using Shared.communication.enums;
+using MazeServer.src.Factories.MapStructures;
 
 namespace MazeServer.src.engine
 {
@@ -19,13 +22,17 @@ namespace MazeServer.src.engine
         public static event EventHandler<EventArgs> NextFrame;
         public static event EventHandler<PostFrameArguments> PostFrame;
 
-        private List<GameObject> Map = new List<GameObject>();
+        private List<Structure> Map = new List<Structure>();
         private List<GameObject> Objects = new List<GameObject>();
+        private MapStyleFactory StyleFactory = new MapStyleFactory();
+        private GameStateContext GameState;
 
-        public Game()
+        public Game(IGameState initialState)
         {
             GameObject.ObjectInstantiated += NewGameObject;
-            this.GenerateMap();
+            GameObject.ObjectDestroyed += DestroyedGameObject;
+
+            this.GameState = new GameStateContext(initialState);
             this.StartGameLoop();
         }
 
@@ -33,23 +40,22 @@ namespace MazeServer.src.engine
         {
             while (true)
             {
-                Game.PreFrame?.Invoke(this, EventArgs.Empty);
-                Game.NextFrame?.Invoke(this, EventArgs.Empty);
-                Game.PostFrame?.Invoke(this, new PostFrameArguments(new GameState(this.Objects)));
-                Thread.Sleep(1000);
+                // Game.PreFrame?.Invoke(this, EventArgs.Empty);
+                // Game.NextFrame?.Invoke(this, EventArgs.Empty);
+                // Game.PostFrame?.Invoke(this, new PostFrameArguments(new GameState(this.Objects.Select(o => (Shared.Engine.GameObject) o).ToList()))); // temporary solution, until 'engine' will be moved to Shared
+                
+                Thread.Sleep(200);
             }
-        }
-
-        private void GenerateMap()
-        {
-            var parser = new MapParser();
-            this.Map = parser.Generate();
-            this.Map.ForEach(s => s.Instantiate());
         }
 
         private void NewGameObject(object sender, GameObjectInitializedArguments e)
         {
             this.Objects.Add(e.Object);
+        }
+
+        private void DestroyedGameObject(object sender, GameObjectInitializedArguments e)
+        {
+            this.Objects.Remove(e.Object);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace MazeServer.src.server.Events
 {
     public class RequestReceivedArguments: EventArgs
     {
-        public ClientToServer Request { get; }
-        public ClientConnection Connection { get; }
-        public RequestReceivedArguments(ClientToServer request, ClientConnection connection)
+        public Request Request { get; }
+        public Connection Connection { get; }
+        public RequestReceivedArguments(Request request, Connection connection)
         {
             this.Request = request;
             this.Connection = connection;

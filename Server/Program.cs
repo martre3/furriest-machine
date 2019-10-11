@@ -6,6 +6,8 @@ using System.Threading;
 using MazeServer.src.engine;
 using MazeServer.src.server;
 using MazeServer.src;
+using MazeServer.src.Game.State;
+using MazeServer.src.Data;
 
 namespace MazeServer
 {
@@ -14,7 +16,7 @@ namespace MazeServer
         static void Main(string[] args)
         {
             new Services();
-            new Game();
+            new Game(new RoomState(new GameData()));
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MazeServer.src.enums;
 using MazeServer.src.engine;
-using MazeServer.src.map.Parser;
 using MazeServer.src.map;
 using MazeServer.src.engine.Events.Arguments;
 using MazeServer.src.server;

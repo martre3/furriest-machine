@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Win32Native\Win32.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

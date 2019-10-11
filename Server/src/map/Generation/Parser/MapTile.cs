@@ -9,7 +9,7 @@ using MazeServer.src.map.Generation;
 using MazeServer.src.engine;
 using MazeServer.src.enums;
 
-namespace MazeServer.src.map.Parser
+namespace MazeServer.src.map.Generation.Parser
 {
     class MapTile
     {

@@ -7,17 +7,17 @@ using System.IO;
 using MazeServer.src.map.Generation;
 using MazeServer.src.engine;
 using MazeServer.src.enums;
+using MazeServer.src.Factories.MapStructures;
 
-namespace MazeServer.src.map.Parser
+namespace MazeServer.src.map.Generation.Parser
 {
     class MapParser: IMapGenerator
     {
         private readonly string ProjectDirectory = Environment.CurrentDirectory;
 
-        public List<GameObject> Generate()
+        public List<Structure> Generate(IStructureFactory factory)
         {
-            List<GameObject> structures = new List<GameObject>();
-            StructureFactory factory = new StructureFactory();
+            List<Structure> structures = new List<Structure>();
             List<List<MapTile>> map = new List<List<MapTile>>(); 
 
             int lineCount = 0;
@@ -64,7 +64,7 @@ namespace MazeServer.src.map.Parser
             }
         }
 
-        private Structure CreateStructure(StructureFactory factory, Structures structureType, int x, int y)
+        private Structure CreateStructure(IStructureFactory factory, Structures structureType, int x, int y)
         {
             var wall = factory.Create(structureType);
             wall.X = x;
