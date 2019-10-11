@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Threading;
 using Shared.communication;
 using Shared.communication.ClientToServer;
+using Shared.communication.ServerToClient;
 using Shared.communication.enums;
 using System.Runtime.Serialization.Formatters.Binary;
 using FormWindow;
@@ -22,12 +23,12 @@ namespace Maze.src.engine
         private int FramesRendered = 0;
         private Renderer RenderEngine;
         private List<GameObject> Map = new List<GameObject>();
-        private ConcurrentQueue<Request> RequestQueue = new ConcurrentQueue<Request>();
+        private static ConcurrentQueue<Request> RequestQueue = new ConcurrentQueue<Request>();
 
         public Game(GraphicsForm graphics)
         {
             GraphicsForm.Rendering += this.GameLoop;
-            GraphicsForm.KeyPressed += this.
+            GraphicsForm.KeyPressed += this.KeyPressed;
             this.RenderEngine = new Renderer(graphics);
 
             new Thread(() =>
@@ -53,39 +54,31 @@ namespace Maze.src.engine
 
                 binaryFormatter.Serialize(stream, data);
 
-                data = new SelectStyleRequest() {
-                    RequestType = Requests.SelectStyle,
-                    Style = Shared.Enums.MapStyle.Style2,
-                };
+                ServerToClientRequest request;
 
-                Request request;
+                System.Diagnostics.Debug.WriteLine("sdsd");
 
-                while ((request = (Request) binaryFormatter.Deserialize(stream)) != null)
+                while (true)
                 {
-                    
+                    System.Diagnostics.Debug.WriteLine("sds1d");
+
+                    request = (ServerToClientRequest) binaryFormatter.Deserialize(stream);
+
+                    System.Diagnostics.Debug.WriteLine("sd2sd");
+
+                    if (request.RequestType == ServerRequests.Spawn)
+                    {
+                        ((GameStartRequest) request).Objects.ForEach(gameObject => factory.Create(gameObject).Insantiate());
+                    }
+
+                    Request requestToSend;
+                    if (Game.RequestQueue.TryDequeue(out requestToSend))
+                    {
+                        binaryFormatter.Serialize(stream, requestToSend);
+                    }
                 }
-                binaryFormatter.Serialize(stream, data);
 
-                data = new Request() {
-                    RequestType = Requests.StartGame,
-                };
-
-                binaryFormatter.Serialize(stream, data);
-
-
-                // while (true) 
-                // {
-                    
-                // }
-
-                var list = ((List<Shared.Engine.GameObject>) binaryFormatter.Deserialize(stream));
-
-                System.Diagnostics.Debug.WriteLine(list.Count);
-
-                list.ForEach(gameObject => factory.Create(gameObject).Insantiate());
-
-                Thread.Sleep(7000);
-
+            
                // stream.Close();
                 // throw new Exception("sss");
                 // client.Close();
@@ -103,7 +96,7 @@ namespace Maze.src.engine
 
             if (request != null)
             {
-                this.RequestQueue.Append(request);
+                Game.RequestQueue.Enqueue(request);
             }
         } 
 
@@ -111,12 +104,12 @@ namespace Maze.src.engine
         {
             switch (keyCode)
             {
-                case Keys.Oem1:
+                case Keys.NumPad1:
                     return new SelectStyleRequest() {
                         RequestType = Requests.SelectStyle,
                         Style = Shared.Enums.MapStyle.Style1,
                     };
-                case Keys.Oem2:
+                case Keys.NumPad2:
                     return new SelectStyleRequest() {
                         RequestType = Requests.SelectStyle,
                         Style = Shared.Enums.MapStyle.Style2,

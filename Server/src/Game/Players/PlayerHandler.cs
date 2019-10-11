@@ -8,6 +8,8 @@ using MazeServer.src.enums;
 using MazeServer.src.engine.Events.Arguments;
 using MazeServer.src.engine;
 using MazeServer.src.server;
+using Shared.communication.ServerToClient;
+using Shared.communication.enums;
 using MazeServer.src.Game.Players.Events;
 using System.Timers;
 using System.Net.Sockets;
@@ -47,7 +49,12 @@ namespace MazeServer.src.Game.Players
         {
             List<Shared.Engine.GameObject> objects = data.Objects.Select(this.ToClientGameObject).ToList();
 
-            this.Players.ToList().ForEach((player) => player.Connection.SendResponse(objects));
+            Console.WriteLine(this.Players.Count);
+
+            this.Players.ToList().ForEach((player) => player.Connection.SendResponse(new GameStartRequest() {
+                RequestType = ServerRequests.Spawn,
+                Objects = objects,
+            }));
         }
 
         private Shared.Engine.GameObject ToClientGameObject(GameObject gameObject)

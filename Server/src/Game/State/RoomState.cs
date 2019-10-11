@@ -9,6 +9,7 @@ using MazeServer.src.Data;
 using MazeServer.src.engine;
 using MazeServer.src.Factories.MapStructures;
 using Shared.communication.ClientToServer;
+using Shared.communication.ServerToClient;
 using Shared.Enums;
 using MazeServer.src.map.Generation.Parser;
 using MazeServer.src.server;
@@ -17,14 +18,11 @@ namespace MazeServer.src.Game.State
 {
     class RoomState: GameState
     {
-        private readonly MapStyle DefaultMapStyle = MapStyle.Style1;
         private MapStyleFactory StyleFactory = new MapStyleFactory();
-        private IStructureFactory SelectedStyle;
+        private MapStyle SelectedStyle = MapStyle.Style1;
         private List<Connection> Connections = new List<Connection>();
 
-        public RoomState(GameData data): base(data) { 
-            this.SelectedStyle = this.StyleFactory.Create(this.DefaultMapStyle);
-        }
+        public RoomState(GameData data): base(data) { }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
         {
@@ -36,14 +34,21 @@ namespace MazeServer.src.Game.State
                     this.Connections.Add(arguments.Connection);
                     break;
                 case Requests.StartGame:
-                    this.GenerateMap(this.SelectedStyle);
+                    this.GenerateMap(this.StyleFactory.Create(this.SelectedStyle));
                     context.SetState(new PlayState(this.Data, this.Connections));
-
                     break;
                 case Requests.SelectStyle:
-                    this.SelectedStyle = this.StyleFactory.Create(((SelectStyleRequest) arguments.Request).Style);
+                    this.SelectedStyle = ((SelectStyleRequest) arguments.Request).Style;
                     break;
             }
+        }
+
+        public override void HandleUpdate(GameStateContext context)
+        {
+            this.Connections.ForEach(connection => connection.SendResponse(new RoomInfoRequest() {
+                RequestType = ServerRequests.RoomInfo,
+                SelectedStyle = this.SelectedStyle.ToString(),
+            }));
         }
 
         private void GenerateMap(IStructureFactory structureFactory)

@@ -43,8 +43,9 @@ namespace MazeServer.src.engine
                 // Game.PreFrame?.Invoke(this, EventArgs.Empty);
                 // Game.NextFrame?.Invoke(this, EventArgs.Empty);
                 // Game.PostFrame?.Invoke(this, new PostFrameArguments(new GameState(this.Objects.Select(o => (Shared.Engine.GameObject) o).ToList()))); // temporary solution, until 'engine' will be moved to Shared
-                
-                Thread.Sleep(200);
+                this.GameState.Update();
+
+                Thread.Sleep(500);
             }
         }
 

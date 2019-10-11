@@ -39,11 +39,11 @@ namespace MazeServer.src.server
                 TcpClient client = await server.AcceptTcpClientAsync()
                                                     .ConfigureAwait(false);
         
-                EchoAsync(client, connectionsCount++, cancellationToken);
+                new Thread(() => HandleClient(client, connectionsCount++, cancellationToken)).Start();
             }
         }
 
-        async Task EchoAsync(TcpClient client, int clientIndex, CancellationToken ct)
+        void HandleClient(TcpClient client, int clientIndex, CancellationToken ct)
         {
             Console.WriteLine("New client ({0}) connected", clientIndex);
 

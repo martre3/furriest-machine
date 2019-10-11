@@ -10,9 +10,8 @@ using System.Collections.Generic;
 namespace Shared.communication.ServerToClient
 {
     [Serializable]
-    public class ServerToClientRequest
+    public class RoomInfoRequest: ServerToClientRequest
     {
-        public ServerRequests RequestType { get; set; }
-        // public GameState State { get; set; }
+        public string SelectedStyle { get; set; }
     }
 }

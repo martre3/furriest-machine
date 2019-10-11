@@ -23,12 +23,8 @@ namespace MazeServer.src.Game.State
         private PlayerHandler PlayerHandler = new PlayerHandler();
 
         public PlayState(GameData data, List<Connection> connections): base(data) { 
-            Console.WriteLine("Created");
-
             connections.ForEach(connection => this.PlayerHandler.AddPlayer(this.PlayerInitializer.Create(connection)));
-            Console.WriteLine(connections.Count);
             this.PlayerHandler.UpdatePlayers(data);
-            Console.WriteLine(connections.Count);
         }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
