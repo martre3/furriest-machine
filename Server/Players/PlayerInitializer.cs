@@ -18,10 +18,8 @@ namespace  Maze.Server.Players
         {
             Random random = new Random();
 
-            var player = new Player() {
-                pos = new Point(random.Next(20, 500), random.Next(20, 500)),
-                size = new Size(32, 32),
-            };
+            // var player = new Player(new Point(random.Next(100, 500), random.Next(20, 500)));
+            var player = new Player(new Point(36, 36));
 
             return player;
         }

@@ -18,65 +18,53 @@ namespace Maze.Game.Objects
     public class Player: GameObject
     {
         public int UserId { get; set; }
-        Point direction;
-        double velocity;
 
-        [NonSerialized]
-        Random rng;
-
-        [NonSerialized]
-        private TextureBrush _brush;
-
-        public Player()
+        public Player(Point position): base()
         {
-            rng = new Random();
-
-            pos = new Point(0, 0);
-            velocity = 10;
-            size = new Size(10, 10);
-            direction = new Point(1, 1);
+            this.Position = position;
+            this.size = new Size(19, 12);
         }
 
         public override void InitializeAssets(AssetsLoader assetsLoader)
         {
-            boundingBox = new Rectangle(pos, size);
+            boundingBox = new Rectangle(this.Position, size);
             _brush = (TextureBrush) assetsLoader.LoadBrush("slime.png");
         }
 
         public override void Draw(Graphics surface)
         {
-            boundingBox.X = pos.X;
-            boundingBox.Y = pos.Y;
+            if (_brush == null)
+            {
+                return;
+            }
+
+            boundingBox.X = this.Position.X;
+            boundingBox.Y = this.Position.Y;
 
             _brush.ResetTransform();
-            _brush.TranslateTransform(pos.X, pos.Y);
+            _brush.TranslateTransform(this.Position.X, this.Position.Y);
             surface.FillRectangle(_brush, boundingBox);
         }
 
         public override void Update(IQueryableFormInput input, UpdateEventArgs e)
         {
             if (input.IsUserKeyDown(UserId, Keys.W)) {
-                pos.Y -= 1;
+                _mesh.Translate(0, -1);
             }
             if (input.IsUserKeyDown(UserId, Keys.D)) {
-                pos.X += 1;
+                _mesh.Translate(1, 0);
             }
             if (input.IsUserKeyDown(UserId, Keys.S)) {
-                pos.Y += 1;
+                _mesh.Translate(0, 1);
             }
             if (input.IsUserKeyDown(UserId, Keys.A)) {
-                pos.X -= 1;
+                _mesh.Translate(-1, 0);
             }
         }
 
-        public override void Sync(GameObject gameObject)
+        public override bool IsDynamic()
         {
-            base.Sync(gameObject);
-
-            var player = (Player) gameObject;
-
-            this.direction = player.direction;
-            this.velocity = player.velocity;
+            return true;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Maze.Server.Map.Generation.Parser
         private Structure CreateStructure(IStructureFactory factory, Structures structureType, int x, int y)
         {
             var wall = factory.Create(structureType);
-            wall.pos = new Point(x * 32, y * 32);
+            wall.Position = new Point(x * 32, y * 32);
             wall.size = new Size(32, 32);
             // wall.Height = height;
             // wall.Width = width;

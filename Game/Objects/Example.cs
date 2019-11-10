@@ -14,7 +14,8 @@ namespace Maze.Game.Objects
         double velocity;
 
         Random rng;
-
+        Point pos;
+        
         public Example()
         {
             rng = new Random();

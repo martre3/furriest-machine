@@ -35,13 +35,11 @@ namespace Maze.Client
 
                 while (true)
                 {
-                    System.Diagnostics.Debug.WriteLine(input.IsKeyDown(Keys.Enter));
                     binaryFormatter.Serialize(stream, input);
 
                     var newState = (GameState) binaryFormatter.Deserialize(stream);
                     
                     if (!input.IsInitialized()) {
-                        System.Diagnostics.Debug.WriteLine(newState.UserId);
                         input.SetUserId(newState.UserId);
                     }
 

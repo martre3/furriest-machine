@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Maze.Game;
 using Maze.Game.Objects;
+using Maze.Game.Objects.Food;
 using Maze.Game.Objects.Map;
 using Maze.Engine.Input;
 using Maze.Server.Players;
@@ -17,6 +18,7 @@ namespace Maze.Server.Game.Data
     {
         public List<Structure> Map { get; set; }
         public List<Player> Players { get; set; }
+        public List<Food> Food { get; set; }
 
         private ConnectionsHandler ConnectionsHandler = new ConnectionsHandler();
         private InputHandler InputHandler;
@@ -28,6 +30,7 @@ namespace Maze.Server.Game.Data
             this.State = state;
             this.Map = new List<Structure>();
             this.Players = new List<Player>();
+            this.Food = new List<Food>();
             this.InputHandler = inputHandler;
         }
 
@@ -41,6 +44,12 @@ namespace Maze.Server.Game.Data
         {
             this.Players.Add(player);
             this.State.Register(player);
+        }
+
+        public void AddFood(Food food)
+        {
+            this.Food.Add(food);
+            this.State.Register(food);
         }
 
         public bool IsFirstRequest(Connection connection)

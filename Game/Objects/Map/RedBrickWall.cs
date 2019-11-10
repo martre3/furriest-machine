@@ -9,7 +9,7 @@ namespace Maze.Game.Objects.Map
     [Serializable]
     public class RedBrickWall: Structure
     {
-        public RedBrickWall()
+        public RedBrickWall(): base()
         {
             this.TextureFile = "Wall5.tif";
         }

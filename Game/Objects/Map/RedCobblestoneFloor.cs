@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Maze.Game.Objects.Map
 {
@@ -10,9 +6,10 @@ namespace Maze.Game.Objects.Map
 
     public class RedCobblestoneFloor: Structure
     {
-        public RedCobblestoneFloor()
+        public RedCobblestoneFloor(): base()
         {
             this.TextureFile = "Floors5.tif";
+            _mesh.IsCollider = false;
         }
     }
 }

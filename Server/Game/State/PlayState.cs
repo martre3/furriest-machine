@@ -10,6 +10,8 @@ using Shared.Enums;
 using Maze.Server.Network;
 using Maze.Server.Players;
 using Maze.Server.Events;
+using Maze.Game.Objects.Food;
+using System.Drawing;
 
 namespace Maze.Server.Game.State
 {
@@ -41,6 +43,12 @@ namespace Maze.Server.Game.State
 
         public override void HandleUpdate(GameStateContext context)
         {
+            if (this.Data.Food.Count == 0) 
+            {
+                Random random = new Random();
+                this.Data.AddFood(new BombPickup(new Point(random.Next(1, 500), random.Next(1, 500))));
+            }
+
             this.Data.UpdateState();
             // this.PlayerHandler.UpdatePlayers(this.Data);t
         }

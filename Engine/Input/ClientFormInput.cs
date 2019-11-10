@@ -16,12 +16,18 @@ namespace Maze.Engine.Input
 
         public void KeyDown(Keys key)
         {
-            _inputKeys[UserId][key] = true;
+            if (IsInitialized())
+            {
+                _inputKeys[UserId][key] = true;
+            }
         }
 
         public void KeyUp(Keys key)
         {
-            _inputKeys[UserId][key] = false;
+            if (IsInitialized())
+            {
+                _inputKeys[UserId][key] = false;
+            }
         }
 
         public void SetUserId(int userId)
