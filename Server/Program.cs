@@ -10,6 +10,7 @@ using Maze.Engine;
 using Maze.Engine.Input;
 using Maze.Game;
 using Maze.Server.Game;
+using Maze.Engine.Physics;
 
 namespace MazeServer
 {
@@ -17,16 +18,18 @@ namespace MazeServer
     {
         static void Main(string[] args)
         {
-            FormInput input = new FormInput();
+            var state = new Maze.Game.GameState();
 
-            GameEngine engine = new GameEngine(input)
+            FormInput input = new FormInput();
+            PhysicsEngine physicsEngine = new PhysicsEngine(state);
+            GameEngine engine = new GameEngine(input, physicsEngine)
             {
                 EnableRender = false,
                 MinFrameTime = 16,
                 UpdateTimeStep = 33,
             };
 
-            var game = new GameRunner(engine, new Maze.Game.GameState());
+            var game = new GameRunner(engine, state);
 
             // TODO: Stop game thread and clean up when window starts closing
             game.RunAsync();

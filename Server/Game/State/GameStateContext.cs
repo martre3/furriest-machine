@@ -28,7 +28,12 @@ namespace Maze.Server.Game.State
 
         public void Update(object sender, EventArgs args)
         {
-            this.CurrentState.HandleUpdate(this);
+            try {
+                this.CurrentState.HandleUpdate(this);
+            } catch (Exception e) {
+                Console.WriteLine(e.ToString());
+                throw e;
+            }
         }
 
         public T GetStateData<T>()

@@ -9,9 +9,10 @@ namespace Maze.Game.Objects.Map
     [Serializable]
     public class BrickFloor: Structure
     {
-        public BrickFloor()
+        public BrickFloor(): base()
         {
             this.TextureFile = "Floors.tif";
+            _mesh.IsCollider = false;
         }
     }
 }

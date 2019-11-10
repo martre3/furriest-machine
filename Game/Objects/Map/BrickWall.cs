@@ -10,7 +10,7 @@ namespace Maze.Game.Objects.Map
 
     public class BrickWall: Structure
     {
-        public BrickWall()
+        public BrickWall(): base()
         {
             this.TextureFile = "Wall2.tif";
         }

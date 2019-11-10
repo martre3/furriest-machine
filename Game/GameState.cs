@@ -1,14 +1,17 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Maze.Game.Objects;
+using Maze.Engine.Physics;
 
 namespace Maze.Game
 {
     [Serializable]
-    public class GameState
+    public class GameState: ICollidableContainer
     {
         public int UserId { get; set; }
         public Dictionary<int, GameObject> GameObjects { get; private set; }
+        private List<ICollidable> _dynamicGameObjects = new List<ICollidable>();
 
         private int _currentId = 0;
 
@@ -36,6 +39,11 @@ namespace Maze.Game
                     gameObject.Id = _currentId++; 
                 }
 
+                if (gameObject.IsDynamic())
+                {
+                    _dynamicGameObjects.Add(gameObject);
+                }
+
                 GameObjects.Add((int) gameObject.Id, gameObject);
             }
         }
@@ -49,6 +57,18 @@ namespace Maze.Game
             }
         }
         
+        public List<ICollidable> GetDynamicObjects()
+        {
+            return _dynamicGameObjects;
+        }
+
+        public List<ICollidable> GetAllColliders()
+        {
+            lock (_objectsLock) {
+                return this.GameObjects.Values.Select(collider => (ICollidable) collider).ToList<ICollidable>();
+            }
+        }
+
         private void RegisterOrUpdate(GameObject gameObject)
         {
             if (GameObjects.ContainsKey((int) gameObject.Id)) {

@@ -3,6 +3,7 @@ using Maze.Engine.Diagnostics;
 using Maze.Engine.Events;
 using Maze.Engine.Input;
 using Maze.Engine.Renderer;
+using Maze.Engine.Physics;
 using Win32;
 
 namespace Maze.Engine
@@ -71,14 +72,17 @@ namespace Maze.Engine
 
         private PerformanceMonitor _monitor { get; }
 
-        public GameEngine(FormInput input)
+        private PhysicsEngine _physicsEngine { get; }
+
+        public GameEngine(FormInput input, PhysicsEngine physicsEngine)
         {
             _input = input;
             _monitor = new PerformanceMonitor();
+            _physicsEngine = physicsEngine;
             PreUpdate += _monitor.CaptureFrame;
         }
 
-        public GameEngine(IRenderer renderer, FormInput input): this(input)
+        public GameEngine(IRenderer renderer, FormInput input, PhysicsEngine physicsEngine): this(input, physicsEngine)
         {
             _renderer = renderer;
 
@@ -117,10 +121,12 @@ namespace Maze.Engine
                 {
                     OnUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
 
+                    _physicsEngine.Simulate();
+
                     unprocessedTime -= UpdateTimeStep;
                     updates++;
                 }
-
+                
                 PostUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
 
                 if (EnableRender) {

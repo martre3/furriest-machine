@@ -15,24 +15,17 @@ namespace Maze.Game.Objects.Map
     {
         protected string TextureFile;
 
-        [NonSerialized]
-        private Brush _brush;
-
         public override void InitializeAssets(AssetsLoader assetsLoader)
         {
-            boundingBox = new Rectangle(pos, size);
+            boundingBox = new Rectangle(this.Position, size);
 
-            _brush = assetsLoader.LoadBrush(this.TextureFile);
+            _brush = (TextureBrush) assetsLoader.LoadBrush(this.TextureFile);
         }
 
         public override void Draw(Graphics surface)
         {
             // boundingBox.X = pos.X;
             // boundingBox.Y = pos.Y;
-
-            if (_brush == null) {
-                System.Diagnostics.Debug.WriteLine("false");
-            }
             
             if (_brush != null) {
                 surface.FillRectangle(_brush, boundingBox);

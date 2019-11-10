@@ -5,6 +5,7 @@ using Maze.Engine;
 using Maze.Engine.Input;
 using Maze.Engine.Renderer;
 using Maze.Game;
+using Maze.Engine.Physics;
 
 namespace Maze.Client
 {
@@ -25,18 +26,19 @@ namespace Maze.Client
 
             GDIRenderer renderer = new GDIRenderer(clientForm);
             ClientFormInput input = new ClientFormInput();
+            ClientGameState state = new ClientGameState();
 
             HookInputEvents(clientForm, input);
 
-            GameEngine engine = new GameEngine(renderer, input)
+            GameEngine engine = new GameEngine(renderer, input, new PhysicsEngine(state))
             {
                 EnableRender = true,
                 MinFrameTime = 16,
                 UpdateTimeStep = 33,
             };
 
-            var game = new GameRunner(engine, new ClientGameState());
-            var synchronizer = new StateSynchronizer(game.GetGameState(), input);
+            var game = new GameRunner(engine, state);
+            var synchronizer = new StateSynchronizer(state, input);
 
             // TODO: Stop game thread and clean up when window starts closing
             game.RunAsync();
