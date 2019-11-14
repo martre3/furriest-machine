@@ -11,17 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Win32", "Win32Native\Win32.csproj", "{9C4F07E9-2285-4D44-AB02-DB8A8720875E}"
 EndProject
-<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{C40EBB34-4D02-4178-BCAD-2CFA4F9D3F1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine", "Engine\Engine.csproj", "{5C28A0DB-F98D-47C1-A705-B6E0D74A375A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows", "Windows\Windows.csproj", "{72315885-3C23-4C0E-A5D4-8A13914A2972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windows", "Windows\Windows.csproj", "{72315885-3C23-4C0E-A5D4-8A13914A2972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{A479F35D-FBE8-4647-B19E-79800C9F8319}"
-=======
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormWindow", "FormWindow\FormWindow.csproj", "{C40EBB34-4D02-4178-BCAD-2CFA4F9D3F1F}"
->>>>>>> Add experimental, form based renderer
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game\Game.csproj", "{A479F35D-FBE8-4647-B19E-79800C9F8319}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormWindow", "FormWindow\FormWindow.csproj", "{FDBB589C-D420-428C-B5F7-D1ED966844E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,15 +47,6 @@ Global
 		{C40EBB34-4D02-4178-BCAD-2CFA4F9D3F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C40EBB34-4D02-4178-BCAD-2CFA4F9D3F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C40EBB34-4D02-4178-BCAD-2CFA4F9D3F1F}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD
-		{A9DE8F64-17BA-4DE7-8E13-0A7147C3232E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9DE8F64-17BA-4DE7-8E13-0A7147C3232E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9DE8F64-17BA-4DE7-8E13-0A7147C3232E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9DE8F64-17BA-4DE7-8E13-0A7147C3232E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1864E2B5-92AE-45D7-AA70-BFCAC127EA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1864E2B5-92AE-45D7-AA70-BFCAC127EA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1864E2B5-92AE-45D7-AA70-BFCAC127EA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1864E2B5-92AE-45D7-AA70-BFCAC127EA0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C28A0DB-F98D-47C1-A705-B6E0D74A375A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C28A0DB-F98D-47C1-A705-B6E0D74A375A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C28A0DB-F98D-47C1-A705-B6E0D74A375A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -70,8 +59,10 @@ Global
 		{A479F35D-FBE8-4647-B19E-79800C9F8319}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A479F35D-FBE8-4647-B19E-79800C9F8319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A479F35D-FBE8-4647-B19E-79800C9F8319}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
->>>>>>> Add experimental, form based renderer
+		{FDBB589C-D420-428C-B5F7-D1ED966844E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBB589C-D420-428C-B5F7-D1ED966844E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBB589C-D420-428C-B5F7-D1ED966844E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBB589C-D420-428C-B5F7-D1ED966844E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
