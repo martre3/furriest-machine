@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Maze.Game;
 using Maze.Game.Objects;
-using Maze.Game.Objects.Food;
+using Maze.Game.Objects.PickUp;
 using Maze.Game.Objects.Map;
 using Maze.Engine.Input;
 using Maze.Server.Players;
@@ -34,6 +34,28 @@ namespace Maze.Server.Game.Data
             this.InputHandler = inputHandler;
         }
 
+        public void DestroyObject(object sender, DestroyedGameObjectEventArgs args)
+        {
+            var gameObject = args.GameObject;
+
+            if (gameObject is Structure)
+            {
+                this.Map.Remove((Structure) gameObject);
+            }
+
+            if (gameObject is Player)
+            {
+                this.Players.Remove((Player) gameObject);
+            }
+
+            if (gameObject is Food)
+            {
+                this.Food.Remove((Food) gameObject);
+            }
+
+            this.State.Destroy(gameObject);
+        }
+
         public void AddStructure(Structure structure)
         {
             this.Map.Add(structure);
@@ -44,6 +66,7 @@ namespace Maze.Server.Game.Data
         {
             this.Players.Add(player);
             this.State.Register(player);
+            this.State.Register(player.Inventory);
         }
 
         public void AddFood(Food food)

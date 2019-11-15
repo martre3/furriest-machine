@@ -14,12 +14,14 @@ namespace  Maze.Server.Players
 {
     class PlayerInitializer
     {
+        int count = 1;
+
         public Player Create()
         {
             Random random = new Random();
 
             // var player = new Player(new Point(random.Next(100, 500), random.Next(20, 500)));
-            var player = new Player(new Point(36, 36));
+            var player = new Player(new Point(36 * count++, 36), new Inventory());
 
             return player;
         }

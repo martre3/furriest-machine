@@ -11,6 +11,8 @@ namespace Maze.Game.Objects
     [Serializable]
     public abstract class GameObject: ICollidable
     {
+        public GameState state;
+
         public int? Id;
         public int clientHeight;
         public int clientWidth;
@@ -30,6 +32,7 @@ namespace Maze.Game.Objects
         public GameObject()
         {
             _mesh = new Mesh();
+            _mesh.Object = this;
 
             // TODO: Have to make these, and any other relevant state data readily available for all GameObject(s).
             clientWidth = 800;
@@ -68,8 +71,10 @@ namespace Maze.Game.Objects
         public virtual void Update(IQueryableFormInput input, UpdateEventArgs e) {}
         public virtual void Update(IQueryableFormInput input, UpdateEventArgs e, GameState currentState)
         {
+            this.state = currentState;
             Update(input, e);
         }
+
         public abstract void Draw(Graphics surface);
 
         protected virtual void OnDestroy() {}
@@ -93,6 +98,8 @@ namespace Maze.Game.Objects
         public void Destroy()
         {
             IsDestroying = true;
+            this._mesh.IsVisible = false;
+            this._mesh.IsCollider = false;
             OnDestroy();
             IsDestroyed = true;
         }
