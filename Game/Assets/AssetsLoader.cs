@@ -12,10 +12,7 @@ namespace Maze.Game.Assets
 
         public Brush LoadBrush(string fileName)
         {
-           // System.Diagnostics.Debug.WriteLine(_amount);
-
             if (!_brushCache.ContainsKey(fileName)) {
-                System.Diagnostics.Debug.WriteLine(_amount++);
                 var brush = new TextureBrush(new Bitmap(new Uri($"{Environment.CurrentDirectory}/assets/{fileName}", UriKind.Absolute).AbsolutePath));
                 _brushCache.Add(fileName, brush);
             }

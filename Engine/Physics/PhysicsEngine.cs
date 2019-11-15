@@ -41,10 +41,16 @@ namespace Maze.Engine.Physics
 
                 while (thisMesh.IsColliding(c.GetMesh()) || c.GetMesh().IsColliding(thisMesh))
                 {
+                    collided = true;
+
+                    if (c.GetMesh().IsTrigger)
+                    {
+                        break;
+                    }
+
                     direction.X *= (int) 0.9;
                     direction.Y *= (int) 0.9;
                     tries--;
-                    collided = true;
 
                     if (tries == 0)
                     {
@@ -54,7 +60,7 @@ namespace Maze.Engine.Physics
 
                 if (collided == true)
                 {
-                    collider.OnCollision(new Collision(c.GetMesh()));
+                    collider.OnCollision(new Collision(c));
                 }
             }
 

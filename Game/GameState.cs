@@ -11,8 +11,11 @@ namespace Maze.Game
     {
         public int UserId { get; set; }
         public Dictionary<int, GameObject> GameObjects { get; private set; }
+        
         private List<ICollidable> _dynamicGameObjects = new List<ICollidable>();
+        private List<GameObject> _temporaryList = new List<GameObject>();
 
+        private bool _iterationInProgress = false;
         private int _currentId = 0;
 
         // [NonSerialized]
@@ -26,15 +29,43 @@ namespace Maze.Game
         public void ApplyCallback(Action<GameObject> callback)
         {
             lock (_objectsLock) {
+                _iterationInProgress = true;
+
                 foreach (var pair in GameObjects) {
                     callback(pair.Value);
                 }
+
+                _iterationInProgress = false;
+                this.RegisterTemporary();
             }
+        }
+
+        public void Destroy(GameObject gameObject)
+        {
+            lock (_objectsLock) {
+                GameObjects = new Dictionary<int, GameObject>();
+
+                if (gameObject.IsDynamic())
+                {
+                    _dynamicGameObjects.Remove(gameObject);
+                }
+
+                GameObjects.Remove((int) gameObject.Id);
+            }   
         }
 
         public virtual void Register(GameObject gameObject)
         {
             lock (_objectsLock) {
+                if (_iterationInProgress)
+                {
+                    
+                    _temporaryList.Add(gameObject);
+                    
+                    return;
+                }
+
+                Console.WriteLine("{0} id", _currentId);
                 if (gameObject.Id == null) {
                     gameObject.Id = _currentId++;
                 }
@@ -43,6 +74,8 @@ namespace Maze.Game
                 {
                     _dynamicGameObjects.Add(gameObject);
                 }
+
+                Console.WriteLine("{0} id", gameObject.Id);
 
                 GameObjects.Add((int) gameObject.Id, gameObject);
             }
@@ -80,6 +113,17 @@ namespace Maze.Game
             Register(gameObject);
         }
 
+        private void RegisterTemporary()
+        {
+            lock (_objectsLock) {
+                foreach (var gameObject in _temporaryList)
+                {
+                    this.Register(gameObject);
+                }
+
+                _temporaryList = new List<GameObject>();
+            }
+        }
         public object Clone()
         {
             return this.MemberwiseClone();

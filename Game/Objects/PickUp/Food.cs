@@ -12,14 +12,13 @@ using Maze.Engine.Events;
 using Maze.Engine.Input;
 using Maze.Game.Assets;
 
-namespace Maze.Game.Objects.Food
+namespace Maze.Game.Objects.PickUp
 {
     [Serializable]
     abstract public class Food: GameObject
     {
-        public Food(Point position)
+        public Food()
         {
-            _mesh.Position = position;
             _mesh.IsTrigger = true;
             size = new Size(32, 32);
         }
@@ -32,7 +31,7 @@ namespace Maze.Game.Objects.Food
 
         public override void Draw(Graphics surface)
         {
-            if (_brush == null)
+            if (_brush == null || !_mesh.IsVisible)
             {
                 return;
             }
@@ -50,6 +49,6 @@ namespace Maze.Game.Objects.Food
             
         }
 
-        abstract public void PickUp();
+        abstract public void PickUp(Player player);
     }
 }
