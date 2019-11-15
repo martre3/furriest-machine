@@ -7,7 +7,7 @@ using Maze.Engine.Physics;
 namespace Maze.Game
 {
     [Serializable]
-    public class GameState: ICollidableContainer
+    public class GameState: ICollidableContainer, ICloneable
     {
         public int UserId { get; set; }
         public Dictionary<int, GameObject> GameObjects { get; private set; }
@@ -36,7 +36,7 @@ namespace Maze.Game
         {
             lock (_objectsLock) {
                 if (gameObject.Id == null) {
-                    gameObject.Id = _currentId++; 
+                    gameObject.Id = _currentId++;
                 }
 
                 if (gameObject.IsDynamic())
@@ -51,12 +51,12 @@ namespace Maze.Game
         public void SyncState(GameState newState)
         {
             UserId = newState.UserId;
-            
+
             foreach (var o in newState.GameObjects.Values) {
                 RegisterOrUpdate(o);
             }
         }
-        
+
         public List<ICollidable> GetDynamicObjects()
         {
             return _dynamicGameObjects;
@@ -78,6 +78,11 @@ namespace Maze.Game
             }
 
             Register(gameObject);
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

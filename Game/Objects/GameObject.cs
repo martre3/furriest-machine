@@ -3,6 +3,7 @@ using System.Drawing;
 using Maze.Engine.Input;
 using Maze.Engine.Events;
 using Maze.Game.Assets;
+using Maze.Game.Commands;
 using Maze.Engine.Physics;
 
 namespace Maze.Game.Objects
@@ -14,10 +15,17 @@ namespace Maze.Game.Objects
         public int clientHeight;
         public int clientWidth;
 
+        protected CommandQueue commands;
+        protected virtual bool UsesCommands { get; } = false;
+
         protected Mesh _mesh;
 
         [NonSerialized]
         protected TextureBrush _brush;
+
+        public bool IsDestroying { get; protected set; } = false;
+
+        public bool IsDestroyed { get; protected set; } = false;
 
         public GameObject()
         {
@@ -26,34 +34,45 @@ namespace Maze.Game.Objects
             // TODO: Have to make these, and any other relevant state data readily available for all GameObject(s).
             clientWidth = 800;
             clientHeight = 576;
+
+            if (UsesCommands)
+            {
+                commands = new CommandQueue();
+            }
         }
 
-        public Point Position { 
+        public Point Position {
             get {
                 return this._mesh.Position;
             }
             set {
-               _mesh.Position = value; 
+               _mesh.Position = value;
             }
         }
 
-        public Size size { 
+        public Size size {
             get {
                 return _mesh.Size;
             }
             set {
-               _mesh.Size = value; 
+               _mesh.Size = value;
             }
         }
 
         public Rectangle boundingBox;
-        
+
         public virtual void Initialize() { }
         public virtual void InitializeAssets(AssetsLoader assetsLoader) {
         }
         public virtual void OnCollision(Collision collision) {}
-        public abstract void Update(IQueryableFormInput input, UpdateEventArgs e);
+        public virtual void Update(IQueryableFormInput input, UpdateEventArgs e) {}
+        public virtual void Update(IQueryableFormInput input, UpdateEventArgs e, GameState currentState)
+        {
+            Update(input, e);
+        }
         public abstract void Draw(Graphics surface);
+
+        protected virtual void OnDestroy() {}
 
         public virtual void Sync(GameObject gameObject)
         {
@@ -69,6 +88,13 @@ namespace Maze.Game.Objects
         public Mesh GetMesh()
         {
             return this._mesh;
+        }
+
+        public void Destroy()
+        {
+            IsDestroying = true;
+            OnDestroy();
+            IsDestroyed = true;
         }
     }
 }
