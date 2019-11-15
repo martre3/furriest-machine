@@ -5,9 +5,9 @@ namespace Maze.Engine.Physics
 {
     public class Collision
     {
-        public Mesh CollidedWith { get; }
+        public ICollidable CollidedWith { get; }
 
-        public Collision(Mesh collidedWith)
+        public Collision(ICollidable collidedWith)
         {
             this.CollidedWith = collidedWith;
         }

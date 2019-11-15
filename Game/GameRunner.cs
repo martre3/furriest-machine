@@ -39,7 +39,7 @@ namespace Maze.Game
         private void HandleInit(object sender, InitEventArgs e)
         {
             // _state.ApplyCallback(gameObject => gameObject.InitializeAssets(new AssetsLoader()));
-            
+
             // _state.GameObjects.ForEach(o => {
             //     o.InitializeAssets();
             // });
@@ -48,7 +48,12 @@ namespace Maze.Game
         private void HandleUpdate(object sender, UpdateEventArgs e)
         {
             try {
-                _state.ApplyCallback(gameObject => gameObject.Update(_engine.Input, e));
+                _state.ApplyCallback(gameObject => {
+                    if (!gameObject.IsDestroying && !gameObject.IsDestroyed)
+                    {
+                        gameObject.Update(_engine.Input, e, (GameState) _state.Clone());
+                    }
+                });
 
                 // _state.GameObjects.ForEach(o => {
                 //     o.Update(_engine.Input, e);
@@ -63,7 +68,12 @@ namespace Maze.Game
 
         private void HandleFrame(object sender, FrameEventArgs e)
         {
-            _state.ApplyCallback(gameObject => gameObject.Draw(e.Surface));
+            _state.ApplyCallback(gameObject => {
+                if (!gameObject.IsDestroying && !gameObject.IsDestroyed)
+                {
+                    gameObject.Draw(e.Surface);
+                }
+            });
 
             // _state.GameObjects.ForEach(o => {
             //     o.Draw(e.Surface);
