@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace Maze.Server.Game.State
 {
-    class RoomState: GameState
+    public class RoomState: GameState
     {
         private MapStyleFactory StyleFactory = new MapStyleFactory();
         private MapStyle SelectedStyle = MapStyle.Style1;

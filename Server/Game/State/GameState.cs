@@ -9,7 +9,7 @@ using Maze.Server.Game.State;
 
 namespace Maze.Server.Game.State
 {
-    abstract class GameState: IGameState
+   public abstract class GameState: IGameState
     {
         public GameData Data { get; set; }
 

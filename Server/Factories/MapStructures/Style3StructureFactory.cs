@@ -9,7 +9,7 @@ using Maze.Game.Objects.Map;
 
 namespace Maze.Server.Factories.MapStructures
 {
-    class Style3StructureFactory: IStructureFactory
+    public class Style3StructureFactory: IStructureFactory
     {
         public Structure Create(Structures type)
         {

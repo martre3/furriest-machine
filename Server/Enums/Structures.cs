@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Maze.Server.Enums
 {
-    enum Structures
+    public enum Structures
     {
         Wall, Floor, Player // TODO
     }

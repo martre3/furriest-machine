@@ -10,7 +10,7 @@ using Maze.Server.Network;
 
 namespace Maze.Server.Game.State
 {
-    class GameStateContext
+    public class GameStateContext
     {
         private IGameState CurrentState;
 
