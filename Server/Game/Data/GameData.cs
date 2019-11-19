@@ -14,7 +14,7 @@ using Maze.Server.Network;
 
 namespace Maze.Server.Game.Data
 {
-    class GameData
+    public class GameData
     {
         public List<Structure> Map { get; set; }
         public List<Player> Players { get; set; }
@@ -32,6 +32,10 @@ namespace Maze.Server.Game.Data
             this.Players = new List<Player>();
             this.Food = new List<Food>();
             this.InputHandler = inputHandler;
+        }
+
+        public GameData()
+        {
         }
 
         public void DestroyObject(object sender, DestroyedGameObjectEventArgs args)

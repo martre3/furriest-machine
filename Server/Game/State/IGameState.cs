@@ -7,7 +7,7 @@ using Maze.Server.Events;
 
 namespace Maze.Server.Game.State
 {
-    interface IGameState
+    public interface IGameState
     {
         void HandleRequest(GameStateContext context, RequestReceivedArguments arguments);
         void HandleUpdate(GameStateContext context);
