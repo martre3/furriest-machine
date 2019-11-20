@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Server\src\singleton\Logger.cs" Link="Logger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.Drawing.Common">
       <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.0.0\ref\netcoreapp3.0\System.Drawing.Common.dll</HintPath>
     </Reference>

@@ -20,7 +20,7 @@ namespace Maze.Client
 
             var clientForm = new ClientForm()
             {
-                ClientSize = new Size(800, 576),
+                ClientSize = new Size(1200, 800),
                 Text = "Maze™",
             };
 

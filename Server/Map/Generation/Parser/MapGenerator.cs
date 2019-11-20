@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Server.Map.Generation.Parser
 {
-    class MapGenerator
+    public class MapGenerator
     {
         private List<string[,]> mapSplittedMatrixes;
+        private readonly string ProjectDirectory = Environment.CurrentDirectory;
 
         public MapGenerator() 
         {
@@ -39,6 +41,23 @@ namespace Server.Map.Generation.Parser
                 }
             }
             return matrix;
+        }
+
+        public void printTofile(List<string[,]> matrix)
+        {
+            StreamWriter writer = File.AppendText($"{ProjectDirectory}/assets/maps/testMap123.txt");
+            for (int i = 0; i < 4; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < 6; j++)
+                {
+                    for (int c = 0; c < 5; c++)
+                    {
+                        writer.Write(matrix[(i * j) + count].ToString());
+                    }
+                }
+                writer.WriteLine();
+            }
         }
 
         public List<string[,]> getGeneratedMatrix()

@@ -11,6 +11,7 @@ using Maze.Engine.Input;
 using Maze.Game;
 using Maze.Server.Game;
 using Maze.Engine.Physics;
+using Maze.Server.Map.Generation.Parser;
 
 namespace MazeServer
 {
@@ -18,6 +19,7 @@ namespace MazeServer
     {
         static void Main(string[] args)
         {
+            MapGenerator obj = new MapGenerator();
             var state = new Maze.Game.GameState();
 
             FormInput input = new FormInput();

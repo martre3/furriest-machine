@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Server.Map.Generation.Parser;
 
 namespace Server.src.singleton
 {
@@ -12,6 +13,8 @@ namespace Server.src.singleton
         private string fileName = DateTime.Today.Date.ToString("yyyy-MM-dd") + ".log";
 
         private Logger() {
+            Console.WriteLine(DateTime.Today.Date.ToString("yyyy-MM-dd") + ".log");
+            //Console.WriteLine(File.Exists(fileName));
             if (!File.Exists(fileName))
             {
                 File.Create(fileName);
@@ -24,6 +27,9 @@ namespace Server.src.singleton
             {
                 lock (lockThread)
                 {
+                    MapGenerator mapGenerator = new MapGenerator();
+                    mapGenerator.generateMatrixList();
+                    var aa = mapGenerator.getGeneratedMatrix();
                     if (instance == null)
                     {
                         instance = new Logger();
@@ -35,10 +41,12 @@ namespace Server.src.singleton
 
         public void printToFile(string text)
         {
-            lock(lockThread)
+            Console.WriteLine(File.Exists(fileName));
+            lock (lockThread)
             {
-                using (StreamWriter writer = new StreamWriter(fileName))
+                using (StreamWriter writer = File.AppendText(fileName))
                 {
+                    //mapGenerator.printTofile(aa);
                     writer.WriteLine(DateTime.Now.ToString() + ": " + text);
                 }
             }
