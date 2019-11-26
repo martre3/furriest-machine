@@ -23,8 +23,8 @@ namespace Maze.Server.Game.State
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
         {
-            if (Data.IsFirstRequest(arguments.Connection)) {
-                Data.InitializeConnection(arguments.Connection);
+            if (Data.IsFirstRequest((Connection) arguments.Connection)) {
+                Data.InitializeConnection((Connection) arguments.Connection);
             }
 
             try {

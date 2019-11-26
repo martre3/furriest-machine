@@ -1,27 +1,38 @@
 ﻿using System;
 using Xunit;
-using System.Collections.Generic;
-using System.Text;
-using Maze.Game;
 using Maze.Server.Game.State;
-using Maze.Server.Game.Data;
-using Maze.Server.Game;
 using Maze.Engine.Input;
 using Maze.Server.Events;
 using Maze.Server.Network;
-using System.Net.Sockets;
+using Moq;
 
 namespace Maze.Tests.Game.State
 {
     public class GameStateContextTest
     {
-        GameStateContext obj = new GameStateContext(new RoomState(new GameData(new Maze.Game.GameState(), new InputHandler(new FormInput()))));
-        RequestReceivedArguments arguments = new RequestReceivedArguments(new FormInput(), new Connection(0, new NetworkStream(new Socket(new SocketInformation))));
-        [Fact]
-        public void test()
+        private GameStateContext _context;
+        private Mock<IGameState> _state;
+
+        public GameStateContextTest()
         {
-            obj.HandleRequest(obj, arguments);
-            Console.WriteLine("SDADAS");
+            _state = new Mock<IGameState>();
+            _context = new GameStateContext(_state.Object);
+        }
+
+        [Fact]
+        public void TestCurrentStateHandlesRequest()
+        {
+            var args = new Mock<RequestReceivedArguments>(Mock.Of<FormInput>(), Mock.Of<IConnection>());
+            _context.HandleRequest(this, args.Object);
+            _state.Verify(mock => mock.HandleRequest(_context, args.Object), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void TestCurrentStateHandlesUpdate()
+        {
+            var args = new Mock<EventArgs>();
+            _context.Update(this, args.Object);
+            _state.Verify(mock => mock.HandleUpdate(_context), Times.Exactly(1));
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Maze.Server.Events
     public class RequestReceivedArguments: EventArgs
     {
         public FormInput Input { get; }
-        public Connection Connection { get; }
-        public RequestReceivedArguments(FormInput input, Connection connection)
+        public IConnection Connection { get; }
+        public RequestReceivedArguments(FormInput input, IConnection connection)
         {
             Input = input;
             this.Connection = connection;
