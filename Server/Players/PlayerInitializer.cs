@@ -12,7 +12,7 @@ using Maze.Game.Objects;
 
 namespace  Maze.Server.Players
 {
-    class PlayerInitializer
+    public class PlayerInitializer
     {
         int count = 1;
 

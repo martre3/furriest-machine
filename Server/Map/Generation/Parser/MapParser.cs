@@ -12,7 +12,7 @@ using System.Drawing;
 
 namespace Maze.Server.Map.Generation.Parser
 {
-    class MapParser: IMapGenerator
+    public class MapParser: IMapGenerator
     {
         private readonly string ProjectDirectory = Environment.CurrentDirectory;
 

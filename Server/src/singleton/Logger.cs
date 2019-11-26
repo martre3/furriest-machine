@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Server.src.singleton
 {
-    class Logger
+    public class Logger
     {
         private static Logger instance;
         private static object lockThread = new object();
