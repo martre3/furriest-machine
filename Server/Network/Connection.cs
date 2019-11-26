@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Maze.Server.Network
 {
-    public class Connection
+    public class Connection: IConnection
     {    
         public int Id { get; }
         protected NetworkStream Stream { get; set; }

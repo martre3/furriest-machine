@@ -36,11 +36,6 @@ namespace Maze.Server.Game.State
             }
         }
 
-        public T GetStateData<T>()
-        {
-            return (T) this.CurrentState.GetStateData();
-        }  
-
         public void SetState(IGameState newState)
         {
             this.CurrentState = newState;
