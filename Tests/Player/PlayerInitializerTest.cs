@@ -15,7 +15,8 @@ namespace Maze.Tests.PlayerInitializerTest
         public void create() 
         {
             var result = obj.Create();
-            Assert.NotNull(result.GetType());
+            Assert.NotNull(result);
+            Assert.IsType<Player>(result);
         }
     }
 }

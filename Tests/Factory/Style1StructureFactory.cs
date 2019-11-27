@@ -4,6 +4,7 @@ using Xunit;
 using Maze.Server.Factories.MapStructures;
 using Maze.Game.Objects.Map;
 using System.Collections.Generic;
+using Maze.Server.Enums;
 
 namespace Maze.Tests.Factory
 {
@@ -11,7 +12,7 @@ namespace Maze.Tests.Factory
     {
         [Theory]
         [MemberData(nameof(Data))]
-        public void Create(Server.Enums.Structures obj1, object obj2)
+        public void Create(Structures obj1, object obj2)
         {
             Style1StructureFactory obj = new Style1StructureFactory();
             var result = obj.Create(obj1);
@@ -21,8 +22,8 @@ namespace Maze.Tests.Factory
         public static IEnumerable<object[]> Data =>
             new List<object[]>
             {
-            new object[] { Server.Enums.Structures.Floor, new BrickFloor() },
-            new object[] { Server.Enums.Structures.Wall, new WoodenWall()  },
+            new object[] { Structures.Floor, new BrickFloor() },
+            new object[] { Structures.Wall, new WoodenWall()  },
             };
         
     }
