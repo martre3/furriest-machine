@@ -17,12 +17,12 @@ namespace Maze.Game.Items
         public void Apply(Player player)
         {
             _previousMultiplier = player.SpeedMultiplier;
-            player.SpeedMultiplier = (int) _multiplier;
+            player.SpeedMultiplier = _multiplier;
         }
 
         public void Undo(Player player)
         {
-            player.SpeedMultiplier = (int) _previousMultiplier;
+            player.SpeedMultiplier = _previousMultiplier;
         }
     }
 }

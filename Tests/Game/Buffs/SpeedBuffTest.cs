@@ -16,23 +16,22 @@ namespace Maze.Tests.Game.Buffs
         [MemberData(nameof(Data))]
         public void Create(float speed)
         {
-            var player = new Mock<Player>(Point.Empty, Mock.Of<Inventory>());
+            var player = new Player(Point.Empty, Mock.Of<Inventory>());
+
             SpeedBuff obj = new SpeedBuff(speed);
-            obj.Apply(player.Object);
-            player.VerifySet(p => p.SpeedMultiplier = (int) speed);
+            obj.Apply(player);
+            Assert.Equal(player.SpeedMultiplier, speed);
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void Undo(float speed)
         {
-            Mock<Inventory> inventory = new Mock<Inventory>();
-            var player = new Mock<Player>(Point.Empty, Mock.Of<Inventory>());
-            int currentSpeed = player.Object.SpeedMultiplier;
+            var player = new Player(Point.Empty, Mock.Of<Inventory>());
             SpeedBuff obj = new SpeedBuff(speed);
-            obj.Apply(player.Object);
-            obj.Undo(player.Object);
-            player.VerifySet(p => p.SpeedMultiplier = currentSpeed);
+            obj.Apply(player);
+            obj.Undo(player);
+            Assert.Equal(player.SpeedMultiplier, 1);
         }
 
         public static IEnumerable<object[]> Data =>
