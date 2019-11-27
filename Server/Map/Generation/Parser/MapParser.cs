@@ -19,9 +19,6 @@ namespace Maze.Server.Map.Generation.Parser
         public List<Structure> Generate(IStructureFactory factory)
         {
             List<Structure> structures = new List<Structure>();
-            List<List<MapTile>> map = new List<List<MapTile>>(); 
-
-            // return structures;
 
             int lineCount = 0;
             string line;
@@ -30,8 +27,6 @@ namespace Maze.Server.Map.Generation.Parser
 
             while ((line = file.ReadLine()) != null)
             {
-                List<MapTile> row = new List<MapTile>();
-
                 int columnCount = 0;
 
                 foreach (char c in line)
