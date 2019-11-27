@@ -26,7 +26,7 @@ namespace Maze.Server.Game.State
         public PlayState(GameData data): base(data) { 
             this.PlayerHandler = new PlayerHandler(data);
 
-            data.ApplyToConnections(connection => this.PlayerHandler.AddPlayer(connection));
+            data.ApplyToConnections(connection => this.PlayerHandler.AddPlayer((Connection) connection));
         }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)

@@ -51,7 +51,7 @@ namespace Maze.Server.Network
             try {
                 using (client)
                 {
-                    Connection connection = new Connection(clientIndex, client.GetStream());
+                    Connection connection = new Connection(clientIndex, client.GetStream(), new BinaryFormatter());
 
                     while (!ct.IsCancellationRequested)
                     {
