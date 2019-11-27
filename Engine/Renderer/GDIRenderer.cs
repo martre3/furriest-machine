@@ -11,9 +11,9 @@ namespace Maze.Engine.Renderer
 
         private Graphics _surface;
         private BufferedGraphics _graphicsBuffer;
-        private GraphicsForm _graphicsForm;
+        private IGraphicsForm _graphicsForm;
 
-        public GDIRenderer(GraphicsForm graphicsForm)
+        public GDIRenderer(IGraphicsForm graphicsForm)
         {
             _graphicsForm = graphicsForm;
         }

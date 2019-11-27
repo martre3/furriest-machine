@@ -4,19 +4,19 @@ using System;
 namespace Maze.Engine.Physics
 {
     public class PhysicsEngine
-    {       
+    {
         private ICollidableContainer _container { get; }
 
         public PhysicsEngine(ICollidableContainer container)
         {
             _container = container;
         }
-        
+
         public void Simulate()
         {
             try {
                 foreach(var o in _container.GetDynamicObjects())
-                {                                        
+                {
                    this.SimulateObject(o, _container.GetAllColliders());
                 }
             } catch (Exception e) {

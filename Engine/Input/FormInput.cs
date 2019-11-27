@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Maze.Engine.Input
@@ -11,7 +12,7 @@ namespace Maze.Engine.Input
 
         public bool IsKeyDown(Keys key)
         {
-            foreach (var id in _inputKeys.Keys) 
+            foreach (var id in _inputKeys.Keys)
             {
                 if (IsUserKeyDown(id, key))
                 {
@@ -27,7 +28,7 @@ namespace Maze.Engine.Input
             if (!_inputKeys.ContainsKey(userId)) {
                 return false;
             }
-            
+
             return _inputKeys[userId][key];
         }
 

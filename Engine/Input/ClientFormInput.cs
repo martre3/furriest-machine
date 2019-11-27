@@ -34,7 +34,6 @@ namespace Maze.Engine.Input
         {
             UserId = userId;
             this.Initialize(userId);
-            System.Diagnostics.Debug.WriteLine(userId);
         }
     }
 }
