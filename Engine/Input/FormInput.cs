@@ -39,7 +39,7 @@ namespace Maze.Engine.Input
             }
         }
 
-        protected void Initialize(int userId)
+        public void Initialize(int userId)
         {
             _inputKeys[userId] = new Dictionary<Keys, bool>();
 

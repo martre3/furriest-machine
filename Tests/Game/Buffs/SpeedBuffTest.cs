@@ -17,7 +17,6 @@ namespace Maze.Tests.Game.Buffs
         public void Create(float speed)
         {
             var player = new Player(Point.Empty, Mock.Of<Inventory>());
-
             SpeedBuff obj = new SpeedBuff(speed);
             obj.Apply(player);
             Assert.Equal(player.SpeedMultiplier, speed);
