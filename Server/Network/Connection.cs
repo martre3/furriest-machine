@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace Maze.Server.Network
 {
     public class Connection: IConnection
     {    
         public int Id { get; }
-        protected NetworkStream Stream { get; set; }
-        protected BinaryFormatter Formatter = new BinaryFormatter();
-        public Connection(int id, NetworkStream stream)
+        protected Stream Stream { get; set; }
+        protected IFormatter Formatter;
+        public Connection(int id, Stream stream, IFormatter formatter)
         {
             this.Id = id;
             this.Stream = stream;
+            this.Formatter = formatter;
+        }
+
+        public int GetId()
+        {
+            return this.Id;
         }
 
         public void SendResponse(object data)

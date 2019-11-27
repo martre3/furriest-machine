@@ -79,16 +79,16 @@ namespace Maze.Server.Game.Data
             this.State.Register(food);
         }
 
-        public bool IsFirstRequest(Connection connection)
+        public bool IsFirstRequest(IConnection connection)
         {
             return this.ConnectionsHandler.IsInit(connection);
         }
-        public void InitializeConnection(Connection connection)
+        public void InitializeConnection(IConnection connection)
         {
             this.ConnectionsHandler.Connect(connection);
         }
 
-        public void ApplyToConnections(Action<Connection> action)
+        public void ApplyToConnections(Action<IConnection> action)
         {
             this.ConnectionsHandler.Apply(action);
         }
@@ -96,7 +96,7 @@ namespace Maze.Server.Game.Data
         public void UpdateState()
         {
             this.ConnectionsHandler.Apply(connection => {
-                this.State.UserId = connection.Id; // TODO: This is a stupid idea
+                this.State.UserId = connection.GetId(); // TODO: This is a stupid idea
                 connection.SendResponse(this.State);
             });
         }

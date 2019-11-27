@@ -8,7 +8,7 @@ namespace Maze.Server.Network
     public interface IConnection
     {    
         void SendResponse(object data);
-
         object GetRequest();
+        int GetId();
     }
 }
