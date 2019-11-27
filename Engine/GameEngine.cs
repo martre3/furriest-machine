@@ -61,6 +61,7 @@ namespace Maze.Engine
         /// </summary>
         public event EventHandler<UpdateEventArgs> OnUpdate;
 
+        // TODO: Why is this static?
         public static event EventHandler<UpdateEventArgs> PostUpdate;
 
         /// <summary>
@@ -73,6 +74,10 @@ namespace Maze.Engine
         private PerformanceMonitor _monitor { get; }
 
         private PhysicsEngine _physicsEngine { get; }
+
+        private double _unprocessedTime = 0;
+
+        private int _updates = 0;
 
         public GameEngine(FormInput input, PhysicsEngine physicsEngine)
         {
@@ -96,8 +101,8 @@ namespace Maze.Engine
 
         public void Loop()
         {
-            double unprocessedTime = 0;
-            int updates = 0;
+            _unprocessedTime = 0;
+            _updates = 0;
 
             if (EnableRender) {
                 _renderer.Initialize();
@@ -110,31 +115,36 @@ namespace Maze.Engine
             {
                 LimitFramerate();
 
-                // TODO: Not sure about creating hundreds of objects per second.
-                // Doesn't seem to cause high memory usage, but further investigation is needed.
-                PreUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
-
-                unprocessedTime += _monitor.LastFrameTime;
-                updates = 0;
-
-                while (unprocessedTime >= UpdateTimeStep && updates < MaxSkippedFrames)
-                {
-                    OnUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
-
-                    _physicsEngine.Simulate();
-
-                    unprocessedTime -= UpdateTimeStep;
-                    updates++;
-                }
-                
-                PostUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
-
-                if (EnableRender) {
-                    _renderer.Frame();
-                    _renderer.Render();
-                }
+                SimulateFrame();
             }
             // TODO: Probably clean up when loop is broken.
+        }
+
+        public void SimulateFrame()
+        {
+            // TODO: Not sure about creating hundreds of objects per second.
+            // Doesn't seem to cause high memory usage, but further investigation is needed.
+            PreUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
+
+            _unprocessedTime += _monitor.LastFrameTime;
+            _updates = 0;
+
+            while (_unprocessedTime >= UpdateTimeStep && _updates < MaxSkippedFrames)
+            {
+                OnUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
+
+                _physicsEngine.Simulate();
+
+                _unprocessedTime -= UpdateTimeStep;
+                _updates++;
+            }
+
+            PostUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
+
+            if (EnableRender) {
+                _renderer.Frame();
+                _renderer.Render();
+            }
         }
 
         private void LimitFramerate()

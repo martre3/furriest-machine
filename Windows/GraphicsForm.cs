@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Maze.Windows
 {
-    public class GraphicsForm : Form
+    public class GraphicsForm : Form, IGraphicsForm
     {
         public bool Antialiasing { get; set; } = false;
         public BufferedGraphics BackBuffer { get; private set; }
