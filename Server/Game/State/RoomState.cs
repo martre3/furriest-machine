@@ -17,20 +17,21 @@ namespace Maze.Server.Game.State
 {
     public class RoomState: GameState
     {
-        private MapStyleFactory StyleFactory = new MapStyleFactory();
+        public MapStyleFactory StyleFactory = new MapStyleFactory();
+        public MapParser Parser = new MapParser();
         private MapStyle SelectedStyle = MapStyle.Style1;
         public RoomState(GameData data): base(data) { }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
         {
-            if (Data.IsFirstRequest((Connection) arguments.Connection)) {
-                Data.InitializeConnection((Connection) arguments.Connection);
+            if (Data.IsFirstRequest(arguments.Connection)) {
+                Data.InitializeConnection(arguments.Connection);
             }
 
             try {
                 if (arguments.Input.IsKeyDown(Keys.Enter)) {
                     this.GenerateMap(this.StyleFactory.Create(this.SelectedStyle));
-                        context.SetState(new PlayState(this.Data));
+                    context.SetState(new PlayState(this.Data));
                 }
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());

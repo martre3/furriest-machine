@@ -4,7 +4,7 @@ using Maze.Game.Objects.Map;
 
 namespace Maze.Server.Factories.MapStructures
 {
-    interface IStructureFactory
+    public interface IStructureFactory
     {
         Structure Create(Structures type);
     }
