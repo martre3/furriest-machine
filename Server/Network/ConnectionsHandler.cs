@@ -6,23 +6,23 @@ namespace Maze.Server.Network
 {
     public class ConnectionsHandler
     {    
-        private ConcurrentDictionary<int, Connection> _connections = new ConcurrentDictionary<int, Connection>();
+        public ConcurrentDictionary<int, IConnection> _connections = new ConcurrentDictionary<int, IConnection>();
 
-        public bool IsInit(Connection connection)
+        public bool IsInit(IConnection connection)
         {
-            return !_connections.ContainsKey(connection.Id);
+            return !_connections.ContainsKey(connection.GetId());
         }
 
-        public void Connect(Connection connection)
+        public void Connect(IConnection connection)
         {
             if (!IsInit(connection)) {
                 return;
             }
 
-            _connections.TryAdd(connection.Id, connection);
+            _connections.TryAdd(connection.GetId(), connection);
         }
 
-        public void Apply(Action<Connection> action)
+        public void Apply(Action<IConnection> action)
         {
             foreach (var pair in _connections)
             {

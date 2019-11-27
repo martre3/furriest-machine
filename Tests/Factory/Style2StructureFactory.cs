@@ -11,8 +11,8 @@ namespace Maze.Tests.Factory
         public void Create()
         {
             Style2StructureFactory obj = new Style2StructureFactory();
-            var wall = obj.Create(Server.Enums.Structures.Wall);
-            var floor = obj.Create(Server.Enums.Structures.Floor);
+            var wall = obj.Create(Maze.Server.Enums.Structures.Wall);
+            var floor = obj.Create(Maze.Server.Enums.Structures.Floor);
             Assert.IsType(wall.GetType(), new BrickWall());
             Assert.IsType(floor.GetType(), new CobblestoneFloor());
         }
