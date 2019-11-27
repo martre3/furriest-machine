@@ -79,11 +79,11 @@ namespace Maze.Server.Game.Data
             this.State.Register(food);
         }
 
-        public bool IsFirstRequest(IConnection connection)
+        public virtual bool IsFirstRequest(IConnection connection)
         {
             return this.ConnectionsHandler.IsInit(connection);
         }
-        public void InitializeConnection(IConnection connection)
+        public virtual void InitializeConnection(IConnection connection)
         {
             this.ConnectionsHandler.Connect(connection);
         }

@@ -8,7 +8,7 @@ using Shared.Enums;
 
 namespace Maze.Server.Factories.MapStructures
 {
-    class MapStyleFactory
+    public class MapStyleFactory
     {
         public IStructureFactory Create(MapStyle style)
         {
