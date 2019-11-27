@@ -11,6 +11,7 @@ using Maze.Engine.Input;
 using Maze.Game.Objects.PickUp;
 using Maze.Game.Items;
 using Maze.Game.Objects.Map;
+using Maze.Server.Players;
 
 namespace Maze.Tests.Game.Data
 {

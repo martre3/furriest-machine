@@ -23,7 +23,7 @@ namespace Maze.Game.Objects
     {
         public int UserId { get; set; }
         // TODO: Should be float
-        public int SpeedMultiplier { get; set; } = 1;
+        public float SpeedMultiplier { get; set; } = 1;
         protected override bool UsesCommands { get; } = true;
         public Inventory Inventory { get; }
         public List<IBuff> Buffs = new List<IBuff>();
@@ -83,16 +83,16 @@ namespace Maze.Game.Objects
         public override void Update(IQueryableFormInput input, UpdateEventArgs e)
         {
             if (input.IsUserKeyDown(UserId, Keys.W)) {
-                _mesh.Translate(0, -1 * SpeedMultiplier);
+                _mesh.Translate(0, -1 * (int) SpeedMultiplier);
             }
             if (input.IsUserKeyDown(UserId, Keys.D)) {
-                _mesh.Translate(1 * SpeedMultiplier, 0);
+                _mesh.Translate(1 * (int) SpeedMultiplier, 0);
             }
             if (input.IsUserKeyDown(UserId, Keys.S)) {
-                _mesh.Translate(0, 1 * SpeedMultiplier);
+                _mesh.Translate(0, 1 * (int) SpeedMultiplier);
             }
             if (input.IsUserKeyDown(UserId, Keys.A)) {
-                _mesh.Translate(-1 * SpeedMultiplier, 0);
+                _mesh.Translate(-1 * (int) SpeedMultiplier, 0);
             }
 
             foreach (var pair in _keysMap)

@@ -2,19 +2,27 @@
 using Xunit;
 using Maze.Server.Factories.MapStructures;
 using Maze.Game.Objects.Map;
+using System.Collections.Generic;
+using Maze.Server.Enums;
 
 namespace Maze.Tests.Factory
 {
     public class Style2StructureFactoryTest
     {
-        [Fact]
-        public void Create()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void Create(Structures obj1, object obj2)
         {
             Style2StructureFactory obj = new Style2StructureFactory();
-            var wall = obj.Create(Maze.Server.Enums.Structures.Wall);
-            var floor = obj.Create(Maze.Server.Enums.Structures.Floor);
-            Assert.IsType(wall.GetType(), new BrickWall());
-            Assert.IsType(floor.GetType(), new CobblestoneFloor());
+            var result = obj.Create(obj1);
+            Assert.IsType(result.GetType(), obj2);
         }
+
+        public static IEnumerable<object[]> Data =>
+            new List<object[]>
+            {
+            new object[] { Structures.Floor, new CobblestoneFloor() },
+            new object[] { Structures.Wall, new BrickWall()  },
+            };
     }
 }
