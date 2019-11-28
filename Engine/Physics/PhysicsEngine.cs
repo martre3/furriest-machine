@@ -3,33 +3,16 @@ using System;
 
 namespace Maze.Engine.Physics
 {
-    public class PhysicsEngine
+    public class PhysicsEngine: SimulationEngine
     {
-        private ICollidableContainer _container { get; }
-
-        public PhysicsEngine(ICollidableContainer container)
-        {
-            _container = container;
-        }
-
-        public void Simulate()
-        {
-            try {
-                foreach(var o in _container.GetDynamicObjects())
-                {
-                   this.SimulateObject(o, _container.GetAllColliders());
-                }
-            } catch (Exception e) {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
-            }
-        }
-
-        private void SimulateObject(ICollidable collider, List<ICollidable> colliders)
+        public PhysicsEngine(ICollidableContainer container): base(container) {}
+        
+        protected override void SimulateObject(ICollidable collider)
         {
             var thisMesh = collider.GetMesh();
             var direction = thisMesh.GetDirection();
 
-            foreach (var c in colliders) // TODO get rid of nested loop
+            foreach (var c in _container.GetAllColliders()) // TODO get rid of nested loop
             {
                 if (c == collider || !c.GetMesh().IsCollider)
                 {

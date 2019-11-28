@@ -10,12 +10,14 @@ namespace Maze.Engine.Physics
         public Point Position;
         public Size Size;
         public bool IsVisible = true;
+        public bool SmoothSync = true;
         public bool IsCollider = true;
         public bool IsTrigger = false;
 
         public object Object;
 
         private Point Direction = new Point(0, 0);
+        public Point RealPosition;
 
         public Mesh()
         {

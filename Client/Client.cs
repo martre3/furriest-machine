@@ -30,7 +30,7 @@ namespace Maze.Client
 
             HookInputEvents(clientForm, input);
 
-            GameEngine engine = new GameEngine(renderer, input, new PhysicsEngine(state))
+            GameEngine engine = new GameEngine(renderer, input, new InterpolationEngine(state))
             {
                 EnableRender = true,
                 MinFrameTime = 16,

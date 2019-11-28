@@ -65,7 +65,6 @@ namespace Maze.Game
                     return;
                 }
 
-                Console.WriteLine("{0} id", _currentId);
                 if (gameObject.Id == null) {
                     gameObject.Id = _currentId++;
                 }
@@ -74,8 +73,6 @@ namespace Maze.Game
                 {
                     _dynamicGameObjects.Add(gameObject);
                 }
-
-                Console.WriteLine("{0} id", gameObject.Id);
 
                 GameObjects.Add((int) gameObject.Id, gameObject);
             }
