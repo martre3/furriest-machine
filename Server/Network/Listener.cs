@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Maze.Server.Events;
 using Server.src.singleton;
 using Maze.Engine.Input;
+using Maze.Game;
 
 namespace Maze.Server.Network
 {
@@ -27,6 +28,8 @@ namespace Maze.Server.Network
 
             var instance = Logger.getInstance();
             instance.printToFile("Listenting...");
+            TestSpeed test = new TestSpeed();
+            test.Test();
             this.AcceptClientsAsync(server, this.CTS.Token);
         }
 

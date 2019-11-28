@@ -24,7 +24,7 @@ namespace Maze.Tests.Game.State
         {
             var args = new Mock<RequestReceivedArguments>(Mock.Of<FormInput>(), Mock.Of<IConnection>());
             _context.HandleRequest(this, args.Object);
-            _state.Verify(mock => mock.HandleRequest(_context, args.Object), Times.Exactly(1));
+            _state.Verify(mock => mock.HandleRequest(_context, args.Object), Times.Once());
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Maze.Tests.Game.State
         {
             var args = new Mock<EventArgs>();
             _context.Update(this, args.Object);
-            _state.Verify(mock => mock.HandleUpdate(_context), Times.Exactly(1));
+            _state.Verify(mock => mock.HandleUpdate(_context), Times.AtLeast(1));
         }
     }
 }
