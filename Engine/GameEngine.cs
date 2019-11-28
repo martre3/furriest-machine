@@ -73,21 +73,21 @@ namespace Maze.Engine
 
         private PerformanceMonitor _monitor { get; }
 
-        private PhysicsEngine _physicsEngine { get; }
+        private SimulationEngine _simulationEngine { get; }
 
         private double _unprocessedTime = 0;
 
         private int _updates = 0;
 
-        public GameEngine(FormInput input, PhysicsEngine physicsEngine)
+        public GameEngine(FormInput input, SimulationEngine simulationEngine)
         {
             _input = input;
             _monitor = new PerformanceMonitor();
-            _physicsEngine = physicsEngine;
+            _simulationEngine = simulationEngine;
             PreUpdate += _monitor.CaptureFrame;
         }
 
-        public GameEngine(IRenderer renderer, FormInput input, PhysicsEngine physicsEngine): this(input, physicsEngine)
+        public GameEngine(IRenderer renderer, FormInput input, SimulationEngine simulationEngine): this(input, simulationEngine)
         {
             _renderer = renderer;
 
@@ -133,7 +133,7 @@ namespace Maze.Engine
             {
                 OnUpdate.Raise(this, new UpdateEventArgs(_monitor.FrameRate, _monitor.LastFrameTime, UpdateTimeStep));
 
-                _physicsEngine.Simulate();
+                _simulationEngine.Simulate();
 
                 _unprocessedTime -= UpdateTimeStep;
                 _updates++;

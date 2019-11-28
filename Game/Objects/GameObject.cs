@@ -81,7 +81,12 @@ namespace Maze.Game.Objects
 
         public virtual void Sync(GameObject gameObject)
         {
-            this.Position = gameObject.Position;
+            if (!_mesh.SmoothSync) 
+            {
+                this.Position = gameObject.Position;
+            }
+
+            this._mesh.RealPosition = gameObject.Position;
             this.size = gameObject.size;
         }
 
