@@ -11,6 +11,7 @@ using System.Timers;
 using System.Net.Sockets;
 using System.Threading;
 using Maze.Server.Game.Data;
+using Maze.Game.Enums;
 
 namespace Maze.Server.Players
 {
@@ -18,6 +19,9 @@ namespace Maze.Server.Players
     {
         private PlayerInitializer Initializer = new PlayerInitializer();
         private GameData MatchData;
+        
+        private bool _preySpawned = false;
+
 
         public PlayerHandler(GameData data)
         {
@@ -31,7 +35,10 @@ namespace Maze.Server.Players
         {
             var player = this.Initializer.Create();
             player.UserId = playerConnection.Id;
-            // playerConnection
+
+            player.Role = _preySpawned ? PlayerRole.Seeker : PlayerRole.Prey; 
+            _preySpawned = true;
+            
             this.MatchData.AddPlayer(player);
             // await this.PlayerListLock.WaitAsync();
             // try

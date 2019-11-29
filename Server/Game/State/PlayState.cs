@@ -14,6 +14,7 @@ using Maze.Game.Objects.PickUp;
 using Maze.Game.Objects;
 using Maze.Game.Items;
 using Maze.Game.Items.Bombs;
+using Maze.Game.Enums;
 
 namespace Maze.Server.Game.State
 {
@@ -27,6 +28,8 @@ namespace Maze.Server.Game.State
             this.PlayerHandler = new PlayerHandler(data);
 
             data.ApplyToConnections(connection => this.PlayerHandler.AddPlayer((Connection) connection));
+
+            Console.WriteLine(data.State.GameObjects.Count);
         }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
@@ -36,6 +39,29 @@ namespace Maze.Server.Game.State
 
         public override void HandleUpdate(GameStateContext context)
         {
+            var prey = this.Data.Players.Find(player => player.Role == PlayerRole.Prey);
+
+            if (prey != null)
+            {
+                foreach (var player in this.Data.Players)
+                {
+                    if (prey == player)
+                    {
+                        continue;
+                    }
+
+                    if (prey.GetDistanceTo(player) < 100)
+                    {
+                        prey.Health -= 4f;
+                    }
+
+                    if (prey.Health <= 0)
+                    {
+                        context.SetState(new EndGameState(this.Data));
+                    }
+                }
+            }
+
             if (this.a) 
             {
                 Random random = new Random();

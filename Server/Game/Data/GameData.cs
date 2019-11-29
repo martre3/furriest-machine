@@ -60,6 +60,11 @@ namespace Maze.Server.Game.Data
             this.State.Destroy(gameObject);
         }
 
+        public void AddObject(GameObject gameObject)
+        {
+            this.State.Register(gameObject);
+        }
+
         public void AddStructure(Structure structure)
         {
             this.Map.Add(structure);
@@ -96,7 +101,7 @@ namespace Maze.Server.Game.Data
         public void UpdateState()
         {
             this.ConnectionsHandler.Apply(connection => {
-                this.State.UserId = connection.GetId(); // TODO: This is a stupid idea
+                this.State.UserId = connection.GetId();
                 connection.SendResponse(this.State);
             });
         }

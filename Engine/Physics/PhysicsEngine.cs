@@ -7,7 +7,7 @@ namespace Maze.Engine.Physics
     {
         public PhysicsEngine(ICollidableContainer container): base(container) {}
         
-        protected override void SimulateObject(ICollidable collider)
+        protected sealed override void SimulateObject(ICollidable collider)
         {
             var thisMesh = collider.GetMesh();
             var direction = thisMesh.GetDirection();
