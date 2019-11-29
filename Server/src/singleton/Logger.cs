@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Maze.Game;
 
 namespace Server.src.singleton
 {
