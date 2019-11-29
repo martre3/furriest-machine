@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Maze.Server.Game.Data;
 using Maze.Server.Events;
 using Maze.Server.Game.State;
+using Maze.Engine.Events;
 
 namespace Maze.Server.Game.State
 {
@@ -20,6 +21,8 @@ namespace Maze.Server.Game.State
 
         public virtual void HandleRequest(GameStateContext context, RequestReceivedArguments arguments) {}
         public virtual void HandleUpdate(GameStateContext context) {}
+        public virtual void HandleUpdate(GameStateContext context, UpdateEventArgs args) {}
+
 
         public object GetStateData()
         {

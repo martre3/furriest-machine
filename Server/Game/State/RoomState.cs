@@ -12,6 +12,7 @@ using Maze.Server.Map.Generation.Parser;
 using Maze.Server.Network;
 using Maze.Server.Events;
 using System.Windows.Forms;
+using Maze.Game.Objects.RoomGUI;
 
 namespace Maze.Server.Game.State
 {
@@ -20,12 +21,19 @@ namespace Maze.Server.Game.State
         public MapStyleFactory StyleFactory = new MapStyleFactory();
         public MapParser Parser = new MapParser();
         private MapStyle SelectedStyle = MapStyle.Style1;
-        public RoomState(GameData data): base(data) { }
+        
+        private PlayersConnectedGUI _playersConnectedGUI;
+
+        public RoomState(GameData data): base(data) { 
+            _playersConnectedGUI = new PlayersConnectedGUI();
+            data.AddObject(_playersConnectedGUI);
+        }
 
         public override void HandleRequest(GameStateContext context, RequestReceivedArguments arguments)
         {
             if (Data.IsFirstRequest(arguments.Connection)) {
                 Data.InitializeConnection(arguments.Connection);
+                _playersConnectedGUI.PlayerNames.Add(String.Format("Player {0}", arguments.Connection.GetId()));
             }
 
             try {

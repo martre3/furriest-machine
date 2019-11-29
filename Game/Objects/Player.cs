@@ -15,6 +15,7 @@ using Maze.Engine.Physics;
 using Maze.Game.Assets;
 using Maze.Game.Commands;
 using Maze.Game.Objects.PickUp;
+using Maze.Game.Enums;
 
 namespace Maze.Game.Objects
 {
@@ -22,14 +23,26 @@ namespace Maze.Game.Objects
     public class Player: GameObject
     {
         public int UserId { get; set; }
+        public bool IsControlled { get { return this.UserId == this.state.UserId; }}
+
         // TODO: Should be float
         public float SpeedMultiplier { get; set; } = 1;
         protected override bool UsesCommands { get; } = true;
         public Inventory Inventory { get; }
         public List<IBuff> Buffs = new List<IBuff>();
 
+        public float Health = 100;
+        public PlayerRole Role;
+
         private Dictionary<Keys, int> _keysMap = new Dictionary<Keys, int>();
         private IBuff _activeBuff;
+
+        [NonSerialized]
+        private Brush _healthBarBackground;
+        
+        [NonSerialized]
+        
+        private Brush _healthBarBrush;
 
         public Player(Point position, Inventory inventory): base()
         {
@@ -78,6 +91,18 @@ namespace Maze.Game.Objects
             _brush.ResetTransform();
             _brush.TranslateTransform(this.Position.X, this.Position.Y);
             surface.FillRectangle(_brush, boundingBox);
+
+            if (this.IsControlled)
+            {
+                if (_healthBarBackground == null)
+                {
+                    _healthBarBackground = new SolidBrush(Color.FromArgb(100, 255, 0, 0));
+                    _healthBarBrush = new SolidBrush(Color.FromArgb(230, 255, 50, 50));
+                }
+
+                surface.FillRectangle(_healthBarBackground, 100 + this.Health * 2, 550, 200 - this.Health * 2, 15);
+                surface.FillRectangle(_healthBarBrush, 100, 550, this.Health * 2, 15);
+            }
         }
 
         public override void Update(IQueryableFormInput input, UpdateEventArgs e)
@@ -119,6 +144,14 @@ namespace Maze.Game.Objects
 
             _activeBuff = buff;
             _activeBuff.Apply(this);
+        }
+
+        public override void Sync(GameObject gameObject)
+        {
+            base.Sync(gameObject);
+
+            this.UserId = ((Player) gameObject).UserId;
+            this.Health = ((Player) gameObject).Health;
         }
 
         public override bool IsDynamic()

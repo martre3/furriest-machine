@@ -7,6 +7,7 @@ using Maze.Server.Game.Data;
 using Maze.Server.Events;
 using Maze.Engine;
 using Maze.Server.Network;
+using Maze.Engine.Events;
 
 namespace Maze.Server.Game.State
 {
@@ -26,9 +27,10 @@ namespace Maze.Server.Game.State
             this.CurrentState.HandleRequest(this, args);
         }
 
-        public void Update(object sender, EventArgs args)
+        public void Update(object sender, UpdateEventArgs args)
         {
             try {
+                this.CurrentState.HandleUpdate(this, args);
                 this.CurrentState.HandleUpdate(this);
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());

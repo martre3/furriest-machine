@@ -3,6 +3,7 @@ using Maze.Engine;
 using Maze.Engine.Events;
 using Maze.Game.Objects;
 using System;
+using System.Collections.Generic;
 
 namespace Maze.Game
 {
@@ -51,7 +52,7 @@ namespace Maze.Game
                 _state.ApplyCallback(gameObject => {
                     if (!gameObject.IsDestroying && !gameObject.IsDestroyed)
                     {
-                        gameObject.Update(_engine.Input, e, (GameState) _state.Clone());
+                        gameObject.Update(_engine.Input, e, (GameState) _state);
                     }
                 });
 

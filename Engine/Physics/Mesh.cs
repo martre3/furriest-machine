@@ -69,5 +69,10 @@ namespace Maze.Engine.Physics
         {
             return point <= segmentStart + segmentLenght && point >= segmentStart;
         }
+
+        public float GetDistanceTo(Mesh mesh)
+        {
+            return (float) Math.Sqrt(Math.Pow(mesh.Position.X - this.Position.X, 2) + Math.Pow(mesh.Position.Y - this.Position.Y, 2));
+        }
     }
 }

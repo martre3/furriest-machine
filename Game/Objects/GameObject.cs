@@ -88,6 +88,8 @@ namespace Maze.Game.Objects
 
             this._mesh.RealPosition = gameObject.Position;
             this.size = gameObject.size;
+            this.IsDestroyed = gameObject.IsDestroyed;
+            this._mesh.IsVisible = gameObject._mesh.IsVisible;
         }
 
         public virtual bool IsDynamic()
@@ -100,6 +102,11 @@ namespace Maze.Game.Objects
             return this._mesh;
         }
 
+        public float GetDistanceTo(GameObject gameObject)
+        {
+            return this._mesh.GetDistanceTo(gameObject._mesh);
+        }
+        
         public void Destroy()
         {
             IsDestroying = true;
