@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Shared.communication.enums;
 using Maze.Server.Game.Data;
-using Maze.Server.Factories.MapStructures;
-using Shared.communication.ClientToServer;
-using Shared.communication.ServerToClient;
 using Shared.Enums;
-using Maze.Server.Map.Generation.Parser;
-using Maze.Server.Network;
 using Maze.Server.Events;
 using System.Windows.Forms;
 using Maze.Game.Objects.RoomGUI;
+using Maze.Server.Map.Generation;
 
 namespace Maze.Server.Game.State
 {
     public class RoomState: GameState
     {
-        public MapStyleFactory StyleFactory = new MapStyleFactory();
-        public MapParser Parser = new MapParser();
+        private MapGenerator _mapGenerator = new MapGenerator();
         private MapStyle SelectedStyle = MapStyle.Style1;
-        
         private PlayersConnectedGUI _playersConnectedGUI;
 
-        public RoomState(GameData data): base(data) { 
+        public RoomState(GameData data): base(data) {
             _playersConnectedGUI = new PlayersConnectedGUI();
             data.AddObject(_playersConnectedGUI);
         }
@@ -38,7 +28,7 @@ namespace Maze.Server.Game.State
 
             try {
                 if (arguments.Input.IsKeyDown(Keys.Enter)) {
-                    this.GenerateMap(this.StyleFactory.Create(this.SelectedStyle));
+                    GenerateMap(new MapContext(SelectedStyle));
                     context.SetState(new PlayState(this.Data));
                 }
             } catch (Exception e) {
@@ -51,10 +41,9 @@ namespace Maze.Server.Game.State
             Data.UpdateState();
         }
 
-        private void GenerateMap(IStructureFactory structureFactory)
+        private void GenerateMap(MapContext context)
         {
-            var parser = new MapParser();
-            parser.Generate(structureFactory).ForEach(s => this.Data.AddStructure(s));
+            _mapGenerator.Generate(context).ForEach(s => this.Data.AddStructure(s));
         }
     }
 }

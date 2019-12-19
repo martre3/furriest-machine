@@ -1,75 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Maze.Server.Map.Generation;
-using Maze.Server.Enums;
-using Maze.Game.Objects.Map;
-using Maze.Server.Factories.MapStructures;
-using System.Drawing;
+using Maze.Server.Map.Generation.Expressions;
 
 namespace Maze.Server.Map.Generation.Parser
 {
-    public class MapParser: IMapGenerator
+    public class MapParser
     {
-        private readonly string ProjectDirectory = Environment.CurrentDirectory;
-
-        public List<Structure> Generate(IStructureFactory factory)
+        public List<IExpression> ParseMap(string path)
         {
-            List<Structure> structures = new List<Structure>();
+            var expressions = new List<IExpression>();
+
+            char c;
+            int charCode;
 
             int lineCount = 0;
-            string line;
+            int columnCount = 0;
 
-            StreamReader file = new StreamReader($"{ProjectDirectory}/assets/maps/testMap.txt");
-
-            while ((line = file.ReadLine()) != null)
-            {
-                int columnCount = 0;
-
-                foreach (char c in line)
+            using (StreamReader file = new StreamReader(path)) {
+                while (file.Peek() >= 0)
                 {
-                    // row.Add(new MapTile(this.ParseChar(c), row.Count, map.Count));
-                    structures.Add(this.CreateStructure(factory, this.ParseChar(c), columnCount, lineCount));
+                    charCode = file.Read();
+                    c = (char) charCode;
+
+                    // Line feed
+                    if (charCode == 10)
+                    {
+                        lineCount++;
+                        columnCount = 0;
+                        continue;
+                    }
+
+                    if (
+                        charCode == 9 // Tab
+                        || charCode == 13 // Carriage return
+                        || charCode == 32 // Space
+                    )
+                    {
+                        continue;
+                    }
+
+                    expressions.Add(ParseChar(c, columnCount, lineCount));
+
                     columnCount++;
                 }
-
-                // map.Add(row);
-                lineCount++;
             }
 
-            return structures;
+            return expressions;
         }
 
-        // private List<GameObject> merge(List<List<MapTile>> map)
-        // {
-            
-        // }
-
-        private Structures ParseChar(char structure)
+        private IExpression ParseChar(char c, int x, int y)
         {
-            switch (structure)
+            switch (c)
             {
                 case '#':
-                    return Structures.Wall;
+                    return new StructureWallExp(x, y);
                 case '=':
-                    return Structures.Floor;
+                    return new StructureFloorExp(x, y);
                 default:
-                    throw new NotImplementedException("Not supported character found in the map");
+                    throw new NotImplementedException($"Not supported character '{(int) c}' found in the map, at ({x}, {y}).");
             }
-        }
-
-        private Structure CreateStructure(IStructureFactory factory, Structures structureType, int x, int y)
-        {
-            var wall = factory.Create(structureType);
-            wall.Position = new Point(x * 32, y * 32);
-            wall.size = new Size(32, 32);
-            // wall.Height = height;
-            // wall.Width = width;
-
-            return wall;
         }
     }
 }
