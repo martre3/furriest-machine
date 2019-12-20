@@ -19,35 +19,21 @@ using Maze.Game.Mediators;
 namespace Maze.Game.Objects
 {
     [Serializable]
-    public class Bomb: GameObject
+    public class Explosion: GameObject
     {
-        [NonSerialized]
-        public IBombMediator Mediator;
-        private Player _owner;
-        private IBuff _buff;
-        private double _lifetime = 1000;
+        private double _lifetime = 500;
 
-        public Bomb(Player owner, IBuff buff, IBombMediator mediator)
+        public Explosion(Point pos)
         {
-            this.Mediator = mediator;
-            _owner = owner;
-            _buff = buff;
-            _mesh.IsTrigger = true;
-            _mesh.Size = new Size(16, 16);
+            this.Position = pos;
+            _mesh.Size = new Size(32, 32);
+            this._mesh.IsTrigger = true;
         }
-
-        // public override void OnCollision(Collision collision)
-        // {
-        //     if (collision.CollidedWith is Food)
-        //     {
-        //         ((Food) collision.CollidedWith).PickUp(this);
-        //     }
-        // }
 
         public override void InitializeAssets(AssetsLoader assetsLoader)
         {
             boundingBox = new Rectangle(this.Position, size);
-            _brush = (TextureBrush) assetsLoader.LoadBrush("bomb.png");
+            _brush = (TextureBrush) assetsLoader.LoadBrush("explosion.png");
         }
 
         public override void Draw(Graphics surface)
@@ -69,23 +55,10 @@ namespace Maze.Game.Objects
         {
             this._lifetime -= e.UpdateTimeStep;
 
-            Console.WriteLine(e.UpdateTimeStep);
-
             if (this._lifetime <= 0)
             {
-                this.Mediator.Explode(this);
                 this.Destroy();
             }
-        }
-
-        public void ApplyEffect(Player player)
-        {
-            player.Buff(this._buff);
-        }
-
-        public override bool IsDynamic()
-        {
-            return true;
         }
     }
 }

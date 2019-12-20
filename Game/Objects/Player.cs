@@ -16,12 +16,16 @@ using Maze.Game.Assets;
 using Maze.Game.Commands;
 using Maze.Game.Objects.PickUp;
 using Maze.Game.Enums;
+using Maze.Game.Mediators;
 
 namespace Maze.Game.Objects
 {
     [Serializable]
     public class Player: GameObject
     {
+        [NonSerialized]
+        public IBombMediator BombMediator;
+
         public int UserId { get; set; }
         public bool IsControlled { get { return this.UserId == this.state.UserId; }}
 
@@ -44,8 +48,11 @@ namespace Maze.Game.Objects
         
         private Brush _healthBarBrush;
 
+        private float _buffTimer = 4000;
+
         public Player(Point position, Inventory inventory): base()
         {
+            this._mesh.SmoothSync = true;
             this.Position = position;
             this.Inventory = inventory;
             this.size = new Size(19, 12);
@@ -105,8 +112,28 @@ namespace Maze.Game.Objects
             }
         }
 
+        public void OnBombExplosion(Bomb bomb)
+        {
+            if (bomb.GetDistanceTo(this) < 20)
+            {
+                bomb.ApplyEffect(this);
+            }
+        }
+
         public override void Update(IQueryableFormInput input, UpdateEventArgs e)
         {
+            if (_activeBuff != null)
+            {
+                _buffTimer -= e.UpdateTimeStep;
+
+                if (_buffTimer <= 0)
+                {
+                    _buffTimer = 4000;
+                    _activeBuff.Undo(this);
+                    _activeBuff = null;
+                }
+            }
+
             if (input.IsUserKeyDown(UserId, Keys.W)) {
                 _mesh.Translate(0, -1 * (int) SpeedMultiplier);
             }
@@ -140,6 +167,7 @@ namespace Maze.Game.Objects
             if (_activeBuff != null)
             {
                 _activeBuff.Undo(this);
+                _buffTimer = 4000;
             }
 
             _activeBuff = buff;
@@ -157,6 +185,17 @@ namespace Maze.Game.Objects
         public override bool IsDynamic()
         {
             return true;
+        }
+
+        public RegressMemento GetMemento()
+        {
+            return new RegressMemento(new Point(this.Position.X, this.Position.Y));
+        }
+
+        public void SetMemento(RegressMemento memento)
+        {
+            this._mesh.Position = new Point(memento.GetPoisition().X, memento.GetPoisition().Y);
+            this._mesh.RealPosition = new Point(memento.GetPoisition().X, memento.GetPoisition().Y);
         }
     }
 }

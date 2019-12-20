@@ -11,6 +11,7 @@ using Maze.Game.Objects.Map;
 using Maze.Engine.Input;
 using Maze.Server.Players;
 using Maze.Server.Network;
+using Maze.Server.Game.Mediators;
 
 namespace Maze.Server.Game.Data
 {
@@ -20,10 +21,12 @@ namespace Maze.Server.Game.Data
         public List<Player> Players { get; set; }
         public List<Food> Food { get; set; }
 
+        public GameState State { get; set; }
+
         private ConnectionsHandler ConnectionsHandler = new ConnectionsHandler();
         private InputHandler InputHandler;
 
-        public GameState State { get; set; }
+        private BombMediator _bombMediator;
 
         public GameData(GameState state, InputHandler inputHandler)
         {
@@ -31,6 +34,7 @@ namespace Maze.Server.Game.Data
             this.Map = new List<Structure>();
             this.Players = new List<Player>();
             this.Food = new List<Food>();
+            this._bombMediator = new BombMediator(this);
             this.InputHandler = inputHandler;
         }
 
@@ -73,6 +77,7 @@ namespace Maze.Server.Game.Data
 
         public void AddPlayer(Player player)
         {
+            player.BombMediator = _bombMediator;
             this.Players.Add(player);
             this.State.Register(player);
             this.State.Register(player.Inventory);

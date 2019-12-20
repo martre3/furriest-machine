@@ -6,9 +6,9 @@ namespace Maze.Game.Items.Bombs
     [Serializable]
     public class BombAdapter: IItem
     {   
-        private IBomb _bomb;
+        private BombItem _bomb;
 
-        public BombAdapter(IBomb bomb)
+        public BombAdapter(BombItem bomb)
         {
             _bomb = bomb;
         }

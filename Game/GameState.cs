@@ -101,8 +101,8 @@ namespace Maze.Game
 
         private void RegisterOrUpdate(GameObject gameObject)
         {
-            if (GameObjects.ContainsKey((int) gameObject.Id)) {
-                GameObjects[(int) gameObject.Id].Sync(gameObject);
+            if (GameObjects.ContainsKey(gameObject.Id.Value)) {
+                GameObjects[gameObject.Id.Value].Sync(gameObject);
 
                 return;
             }

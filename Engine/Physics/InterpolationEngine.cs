@@ -17,7 +17,7 @@ namespace Maze.Engine.Physics
 
         private int Interpolate(int first, int second)
         {
-            return (int) Math.Ceiling(first + (second - first) / 5d);
+            return first + (second - first) / 5;
         }
     }
 }

@@ -31,8 +31,11 @@ namespace Maze.Engine.Physics
                         break;
                     }
 
-                    direction.X *= (int) 0.9;
-                    direction.Y *= (int) 0.9;
+                    // direction.X *= (int) 0.9;
+                    // direction.Y *= (int) 0.9;
+
+                    direction.X = 0;
+                    direction.Y = 0;                    
                     tries--;
 
                     if (tries == 0)
