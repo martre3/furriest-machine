@@ -1,5 +1,6 @@
 ﻿using System;
 using Maze.Server.Game.Data;
+using Maze.Server.Factories.MapStructures;
 using Shared.Enums;
 using Maze.Server.Events;
 using System.Windows.Forms;

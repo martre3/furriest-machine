@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using Shared.communication.enums;
 using Maze.Server.Game.Data;
 using Maze.Server.Factories.MapStructures;
-using Shared.communication.ClientToServer;
-using Shared.communication.ServerToClient;
 using Shared.Enums;
 using Maze.Server.Map.Generation.Parser;
 using Maze.Server.Network;
