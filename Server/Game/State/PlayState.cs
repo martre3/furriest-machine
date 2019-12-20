@@ -51,7 +51,7 @@ namespace Maze.Server.Game.State
 
                     if (prey.GetDistanceTo(player) < 100)
                     {
-                        prey.Health -= 4f;
+                        prey.Health -= 1f;
                     }
 
                     if (prey.Health <= 0)
@@ -64,7 +64,7 @@ namespace Maze.Server.Game.State
             if (this.a) 
             {
                 Random random = new Random();
-                this.Data.AddFood(new ItemPickup(new BombAdapter(new FreezeBomb())) {
+                this.Data.AddFood(new ItemPickup(new BombAdapter(new TimeBomb())) {
                     Position = new System.Drawing.Point(90, 32),
                 });
 

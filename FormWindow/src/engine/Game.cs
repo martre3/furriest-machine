@@ -9,8 +9,6 @@ using System.Timers;
 using System.Net.Sockets;
 using System.Threading;
 using Shared.communication;
-using Shared.communication.ClientToServer;
-using Shared.communication.ServerToClient;
 using Shared.communication.enums;
 using System.Runtime.Serialization.Formatters.Binary;
 using FormWindow;

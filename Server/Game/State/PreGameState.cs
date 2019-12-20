@@ -18,7 +18,7 @@ namespace Maze.Server.Game.State
 {
     public class PreGameState: GameState
     {
-        private float _timer = 5000;
+        private double _timer = 5000;
 
         private CountDownGUI _gui;
         
@@ -32,7 +32,7 @@ namespace Maze.Server.Game.State
 
         public override void HandleUpdate(GameStateContext context, UpdateEventArgs args)
         {
-            _timer -= (float) args.LastFrameTime;
+            _timer -= args.LastFrameTime;
 
             if (_timer <= 0) 
             {

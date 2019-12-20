@@ -13,7 +13,7 @@ namespace Maze.Game.Objects.GUI
     [Serializable]
     public class CountDownGUI: GameObject
     {
-        public float CurrentTime;
+        public double CurrentTime;
         private Font _font = new Font("Courier New", 90);
 
         [NonSerialized]

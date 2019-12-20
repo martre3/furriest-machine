@@ -102,7 +102,7 @@ namespace Maze.Game.Objects
             return this._mesh;
         }
 
-        public float GetDistanceTo(GameObject gameObject)
+        public double GetDistanceTo(GameObject gameObject)
         {
             return this._mesh.GetDistanceTo(gameObject._mesh);
         }
