@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.communication.enums;
 using Maze.Server.Game.Data;
-using Shared.communication.ClientToServer;
 using Shared.Enums;
 using Maze.Server.Network;
 using Maze.Server.Players;

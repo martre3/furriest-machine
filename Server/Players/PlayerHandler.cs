@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Maze.Server.Network;
-using Shared.communication.ServerToClient;
 using Shared.communication.enums;
 using System.Timers;
 using System.Net.Sockets;

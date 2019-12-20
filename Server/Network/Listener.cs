@@ -7,9 +7,10 @@ using Shared.communication;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Maze.Server.Events;
-using Server.src.singleton;
+using Server.src.FileLogging;
 using Maze.Engine.Input;
 using Maze.Game;
+using Server.src.singleton;
 
 namespace Maze.Server.Network
 {
@@ -27,7 +28,11 @@ namespace Maze.Server.Network
             server.Start();
 
             var instance = Logger.getInstance();
-            instance.printToFile("Listenting...");
+            instance.GetChain().PrintMessageToFile("Listenting...");
+            var instance1 = Logger.getInstance();
+            instance1.GetChain().PrintMessageToFile("haha exception");
+            var instance2 = Logger.getInstance();
+            instance2.GetChain().PrintMessageToFile("haha warning");
             TestSpeed test = new TestSpeed();
             test.Test();
             this.AcceptClientsAsync(server, this.CTS.Token);
@@ -48,8 +53,9 @@ namespace Maze.Server.Network
 
         void HandleClient(TcpClient client, int clientIndex, CancellationToken ct)
         {
+
             var instance = Logger.getInstance();
-            instance.printToFile(("New client ({0}) connected", clientIndex).ToString());
+            instance.GetChain().PrintMessageToFile(("New client ({0}) connected", clientIndex).ToString());
 
             try {
                 using (client)
@@ -64,10 +70,10 @@ namespace Maze.Server.Network
                 }
             } catch (Exception e) {
                 instance = Logger.getInstance();
-                instance.printToFile(e.GetBaseException().ToString());
+                instance.GetChain().PrintMessageToFile(e.GetBaseException().ToString());
             }
             instance = Logger.getInstance();
-            instance.printToFile(("Client ({0}) disconnected", clientIndex).ToString());
+            instance.GetChain().PrintMessageToFile(("Client ({0}) disconnected", clientIndex).ToString());
         }
     }
 }

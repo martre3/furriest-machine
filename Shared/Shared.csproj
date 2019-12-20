@@ -4,4 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="communication\ClientToServer\**" />
+    <Compile Remove="communication\ServerToClient\**" />
+    <EmbeddedResource Remove="communication\ClientToServer\**" />
+    <EmbeddedResource Remove="communication\ServerToClient\**" />
+    <None Remove="communication\ClientToServer\**" />
+    <None Remove="communication\ServerToClient\**" />
+  </ItemGroup>
+
 </Project>
